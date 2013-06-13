@@ -1,15 +1,8 @@
 (function (plugin) {
-	if (
-	typeof require === "function"
-	&& typeof exports === "object"
-	&& typeof module === "object"
-	) {
+	if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
 		// NodeJS
 		module.exports = plugin;
-	} else if (
-	typeof define === "function"
-	&& define.amd
-	) {
+	} else if (typeof define === 'function' && define.amd) {
 		// AMD
 		define(function () {
 			return plugin;
@@ -19,44 +12,39 @@
 		chai.use(plugin);
 	}
 }(function (chai, utils) {
-	var JSV;
-	var assert = chai.assert;
 
-	if (
-	typeof window === "object"
-	&& typeof window._ == "function"
-	) {
+	var assert = chai.assert;
+	var tv4;
+
+	if (typeof window === 'object' && typeof document === 'object') {
 		// browser-side
 		_ = window._;
-		JSV = window.JSV;
-		assert.ok(JSV, 'JSV not loaded');
+		tv4 = window.tv4;
 	} else {
 		// server-side
-		_ = require('json-schema');
-		JSV = require('jsv').JSV;
-		assert.ok(JSV, 'JSV not loaded');
+		_ = require('underscore');
+		tv4 = require('tv4').tv4;
 	}
-
-	env = JSV.createEnvironment("json-schema-draft-03");
-
-	var draft = "draft-03";
-	env.setOption("defaultSchemaURI", "http://json-schema.org/" + draft + "/hyper-schema#");
-	env.setOption("latestJSONSchemaSchemaURI", "http://json-schema.org/" + draft + "/schema#");
-	env.setOption("latestJSONSchemaHyperSchemaURI", "http://json-schema.org/" + draft + "/hyper-schema#");
-	env.setOption("latestJSONSchemaLinksURI", "http://json-schema.org/" + draft + "/links#");
+	assert.ok(_, 'underscore not loaded');
+	assert.ok(tv4, 'tv4 not loaded');
 
 	chai.Assertion.addMethod('jsonSchema', function (expected) {
 		var obj = this._obj;
 
-		var expectedAsJSON = JSON.parse(JSON.stringify(expected));
+		assert.ok(obj, 'obj');
+		assert.ok(expected, 'expected');
+
+		var result = tv4.validateResult(obj, expected);
+
+		//console.log(utils.inspect(result));
 
 		this.assert(
-		_.isEqual(obj, expectedAsJSON)
-		, "expected #{this} to comform to json-schema #{exp}"
-		, "expected #{this} not to comform to json-schema #{exp}"
-		, expectedAsJSON
-		, obj
-		, true
+			result.valid
+			, 'expected #{this} to comform to json-schema #{exp}'
+			, 'expected #{this} not to comform to json-schema #{exp}'
+			, expected
+			, obj
+			, true
 		)
 	});
 
