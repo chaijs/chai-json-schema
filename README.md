@@ -1,4 +1,4 @@
 chai-json-schema
 ================
 
-Validate objects against json-schema
+Validate values against json-schema
