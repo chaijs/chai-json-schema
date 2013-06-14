@@ -49,6 +49,44 @@
 				"stringKey": false
 			}}
 		]
+	}, {
+		name: 'fruit',
+		schema: {
+			"description": "fresh fruit schema v1",
+			"type": "object",
+			"properties": {
+				"required": ["skin", "colors", "taste"],
+				"colors": {
+					"type": "array",
+					"minItems": 1,
+					"uniqueItems": true,
+					"items": {
+						"type": "string"
+					}
+				},
+				"skin": {
+					"type": "string"
+				},
+				"taste": {
+					"type": "number",
+					"minimum": 5
+				}
+			}
+		},
+		valid: [
+			{ data: {
+				skin: "thin",
+				colors: ["red", "green", "yellow"],
+				taste: 10
+			}}
+		],
+		invalid: [
+			{data: {
+				colors: ["brown"],
+				taste: 0,
+				worms: 2
+			}}
+		]
 	});
 
 	describe('chai-json-schema', function () {
