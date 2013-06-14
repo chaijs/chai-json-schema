@@ -44,5 +44,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('default', ['test']);
 	grunt.registerTask('server', ['connect:test']);
 	grunt.registerTask('test', ['mochaTest', 'mocha']);
-	grunt.registerTask('dev', ['mocha']);
+
+	grunt.registerTask('edit_01', ['mochaTest']);
+	grunt.registerTask('edit_02', ['mocha']);
 };

@@ -35,16 +35,18 @@
 		assert.ok(expected, 'expected');
 
 		var result = tv4.validateResult(obj, expected);
+		console.log(utils.inspect(result));
+		var pass = result.valid && result.missing.length == 0;
 
-		//console.log(utils.inspect(result));
 
 		this.assert(
-			result.valid
+			pass
 			, 'expected #{this} to comform to json-schema #{exp}'
 			, 'expected #{this} not to comform to json-schema #{exp}'
 			, expected
-			, obj
-			, true
+			, result
+			, false
+			, false
 		)
 	});
 
