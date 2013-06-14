@@ -1,7 +1,7 @@
 {
   "name": "chai-json-schema",
   "version": "1.0.0",
-  "description": "Validate values against json-schema",
+  "description": "Validate values against json-schema draft v04",
   "main": "index.js",
   "scripts": {
     "test": "grunt test"
