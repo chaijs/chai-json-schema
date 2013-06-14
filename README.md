@@ -2,11 +2,11 @@
 
 Assertions for [chai](http://chaijs.com/) to validate values against IETF [json-schema](http://json-schema.org/)
 
-Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to to validate both simple and complex objects formats with the rich and detailed collection of standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
+Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple and complex objects formats with the rich and detailed collection of standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
 
 Due to the nature of test assertions there will be no support for *dynamically*  loading remote references, but I'm looking into exposing tv4's `addSchema(uri, schema)` feature so you can preset the reference lookup. 
 
-Since most testing frameworks support an async test/suite initialisation step so I might add a convenient reference preloader using something like jquery, request.js or superagent.
+Since most testing frameworks support an async test/suite initialisation step I might add a convenient reference preloader using something like jquery, request.js or superagent.
 
 ## Usage
 
