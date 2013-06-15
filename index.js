@@ -35,9 +35,8 @@
 		assert.ok(expected, 'expected');
 
 		var result = tv4.validateResult(obj, expected);
-		console.log(utils.inspect(result));
+		//console.log(utils.inspect(result));
 		var pass = result.valid && result.missing.length == 0;
-
 
 		this.assert(
 			pass
