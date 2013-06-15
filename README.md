@@ -1,4 +1,5 @@
 # chai-json-schema
+[![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema)
 
 Assertions for [chai](http://chaijs.com/) to validate values against IETF [json-schema](http://json-schema.org/)
 
