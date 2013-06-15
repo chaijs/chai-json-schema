@@ -6,20 +6,18 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-mocha');
-	grunt.loadNpmTasks('grunt-contrib-connect');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		mochaTest: {
+			options: {
+				reporter: 'mocha-unfunk-reporter'
+			},
 			any: {
-				src: ['test/*.js'],
-				options: {
-					reporter: 'mocha-unfunk-reporter'
-				}
+				src: ['test/*.js']
 			}
 		},
 		mocha: {
-			src: ['test/*.html'],
 			options: {
 				bail: true,
 				log: true,
@@ -28,15 +26,9 @@ module.exports = function (grunt) {
 				},
 				reporter: 'mocha-unfunk-reporter',
 				run: true
-			}
-		},
-		connect: {
-			test: {
-				options: {
-					port: 9001,
-					base: '',
-					keepalive: true
-				}
+			},
+			any: {
+				src: ['test/*.html']
 			}
 		}
 	});

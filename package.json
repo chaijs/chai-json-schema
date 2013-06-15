@@ -12,6 +12,8 @@
   },
   "keywords": [
     "chai",
+    "json",
+    "assertion",
     "json-schema"
   ],
   "author": "Bart van der Schoor",
@@ -24,10 +26,8 @@
     "chai": "~1.6.1",
     "grunt-mocha-test": "~0.4.0",
     "grunt": "~0.4.1",
-    "json-schema": "git://github.com/Bartvds/json-schema",
-    "mocha-unfunk-reporter": "~0.1.7",
-    "grunt-contrib-connect": "~0.3.0",
-	"grunt-mocha": "git://github.com/Bartvds/grunt-mocha.git",
+    "mocha-unfunk-reporter": "*",
+	"grunt-mocha": "git://github.com/Bartvds/grunt-mocha",
     "mocha": "~1.11.0"
   },
   "dependencies": {
