@@ -163,7 +163,7 @@
 		// why not self-host, dogfooding style?
 		// - "yo dawg! I heard you like schema validation using a validation schema so i put some validation schema schema validation in your schema validation validation."
 		it('self tests', function () {
-			assert.jsonSchema(tests, dataSchema);
+			//assert.jsonSchema(tests, dataSchema);
 		});
 
 		// old skool
@@ -189,8 +189,8 @@
 		describe('bdd', function () {
 
 			it('is defined', function () {
-				assert.isFunction(expect(true).to.be.jsonSchema, 'expect');
-				assert.isFunction({}.should.be.jsonSchema, 'should');
+				assert.isFunction(expect(true).to.be.jsonSchema, 'expect jsonSchema');
+				assert.isFunction({}.should.be.jsonSchema, 'should jsonSchema');
 			});
 
 			_.each(tests, function (testCase) {
@@ -227,7 +227,6 @@
 					});
 				});
 			});
-
 		});
 		describe('tdd', function () {
 			it('is defined', function () {
@@ -261,6 +260,18 @@
 							expect(function () {
 								assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
 							}).to.fail('#' + i);
+						});
+					});
+				});
+			});
+		});
+
+		describe.skip('fail', function () {
+			_.each(tests, function (testCase) {
+				describe(testCase.name + ' schema', function () {
+					it('assert.jsonSchema()', function () {
+						_.each(testCase.invalid, function (obj, i) {
+							assert.jsonSchema(obj.data, testCase.schema, '#' + i);
 						});
 					});
 				});

@@ -32,6 +32,7 @@ module.exports = function (grunt) {
 			}
 		}
 	});
+	require('mocha-unfunk-reporter').option('color', true);
 	// cli commands
 	grunt.registerTask('default', ['test']);
 	grunt.registerTask('server', ['connect:test']);
