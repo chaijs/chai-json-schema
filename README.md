@@ -5,18 +5,21 @@ Assertions for [chai](http://chaijs.com/) to validate values against IETF [json-
 
 Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple and complex objects formats with the rich and detailed collection of standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
 
+## Notes
+
 Due to the nature of test assertions there will be no support for *dynamically*  loading remote references, but I'm looking into exposing tv4's `addSchema(uri, schema)` feature so you can preset the reference lookup. 
 
-Since most testing frameworks support an async test/suite initialisation step I might add a convenient reference preloader using something like jquery, request.js or superagent.
+And since most testing frameworks support an async test/suite initialisation step I might add a convenient reference preloader using something like jquery, request.js or superagent.
 
 ## Usage
 
 ### browser-side
 
-Include chai-json-schema after [chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [Underscore.js](http://underscorejs.org/):
+Include chai-json-schema after [chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4), [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/) and [Underscore.js](http://underscorejs.org/):
 
     <script src="underscore.js"></script>
     <script src="tv4.js"></script>
+    <script src="jsonpointer.js"></script>
     <script src="chai.js"></script>
     <script src="chai-json-schema.js"></script>
 
@@ -79,6 +82,7 @@ Validate that the given javascript value is a valid instance of the specified js
 
 ## History
 
+* 1.0.1 - Added basic validation error reporting
 * 1.0.0 - First release (without schema reference lookup)
 
 ## License
