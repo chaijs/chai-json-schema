@@ -14,7 +14,7 @@
 }(function (chai, utils) {
 
 	var assert = chai.assert;
-	var tv4, jsonpointer;
+	var tv4, _, jsonpointer;
 
 	if (typeof window === 'object' && typeof document === 'object') {
 		// browser-side
@@ -27,77 +27,96 @@
 		tv4 = require('tv4').tv4;
 		jsonpointer = require('jsonpointer.js');
 	}
-	assert.ok(_, 'underscore not loaded');
-	assert.ok(tv4, 'tv4 not loaded');
-	assert.ok(jsonpointer, 'jsonpointer not loaded');
 
-	var valueType = function (value) {
-		var t = typeof value;
-		if (t === 'object') {
-			if (Object.prototype.toString.call(value) === '[object Array]') {
-				return 'array';
-			}
-		}
-		return t;
-	};
+	//check if we have all dependencies
+	assert.ok(_, 'underscore dependency');
+	assert.ok(tv4, 'tv4 dependency');
+	assert.ok(jsonpointer, 'jsonpointer dependency');
 
-	var valueStrim = function (value) {
+	//make a compact debug string from any object
+	var valueStrim = function (value, cutoff) {
+		var strimLimit = typeof cutoff === 'undefined' ? 60 : cutoff;
+
 		var t = typeof value;
 		if (t === 'function') {
 			return '[function]';
 		}
 		if (t === 'object') {
-			//return Object.prototype.toString.call(value);
 			value = JSON.stringify(value);
-			if (value.length > 40) {
-				value = value.substr(0, 37) + '...';
+			if (value.length > strimLimit) {
+				value = value.substr(0, strimLimit) + '...';
 			}
 			return value;
 		}
 		if (t === 'string') {
-			if (value.length > 40) {
-				return JSON.stringify(value.substr(0, 37)) + '...';
+			if (value.length > strimLimit) {
+				return JSON.stringify(value.substr(0, strimLimit)) + '...';
 			}
 			return JSON.stringify(value);
 		}
 		return '' + value;
 	};
 
+	//print validation errors
 	var printError = function (error, data, schema, indent) {
-		//grunt.log.writeln(util.inspect(error, false, 4));
 		var value = jsonpointer.get(data, error.dataPath);
 		var schema = jsonpointer.get(schema, error.schemaPath);
+
+		//assemble error string
 		var ret = '';
 		ret += '\n' + indent + error.message;
-		ret += '\n' + indent + '    field:  ' + error.dataPath;
-		ret += '\n' + indent + '    value:  ' + valueType(value) + ' -> ' + valueStrim(value);
+		if (error.dataPath) {
+			ret += '\n' + indent + '    field:  ' + error.dataPath;
+		}
+		ret += '\n' + indent + '    value:  ' + utils.type(value) + ' -> ' + valueStrim(value);
 		ret += '\n' + indent + '    schema: ' + schema + ' -> ' + error.schemaPath;
 
+		//go deeper
 		_.each(error.subErrors, function (f) {
 			ret += printError(indent + indent);
 		});
 		return ret;
 	};
 
+	//add the method
 	chai.Assertion.addMethod('jsonSchema', function (schema) {
 		var obj = this._obj;
 
-		assert.ok(obj, 'obj');
+		//note: don't assert.ok(obj) -> zero or empty string is a valid and describable json-value
 		assert.ok(schema, 'schema');
 
+		//single result
 		var result = tv4.validateResult(obj, schema);
-		//console.log(utils.inspect(result));
+		//assertion fails on missing schemas
 		var pass = result.valid && result.missing.length === 0;
 
+		//assemble readable message
+		var label;
+		if (schema.id) {
+			label = schema.id;
+		}
+		if (schema.title) {
+			label += (label ? ' (' + schema.title + ')' : schema.title);
+		}
+		if (!label && schema.description) {
+			label = valueStrim(schema.description, 30);
+		}
+		if (!label) {
+			label = valueStrim(schema, 30);
+		}
+		//assemble error report
 		var details = '';
 		if (!pass) {
-			if (result.errors) {
-				_.each(result.errors, function (error) {
-					details += printError(error, obj, schema, '      ');
-				});
+			var indent = '      ';
+			details += ' -> \'' + valueStrim(obj, 30) + '\'';
+
+			if (result.error) {
+				details += printError(result.error, obj, schema, indent);
 			}
-			else if (result.error) {
-				details += printError(result.error, obj, schema, '      ');
+			else if (result.errors) {
+				_.each(result.errors, function (error) {
+					details += printError(error, obj, schema, indent);
+				});
 			}
 			if (result.missing.length > 0) {
 				details += '\n' + 'missing schemas:';
@@ -106,17 +125,16 @@
 				});
 			}
 		}
-
+		//pass hardcoded strings and no actual value (mocha forces nasty string diffs)
 		this.assert(
 			pass
-			, 'expected #{this} to comform to json-schema #{exp}' + details
-			, 'expected #{this} not to comform to json-schema #{exp}' + details
-			, schema
-		);
+			, 'expected value to match json-schema \'' + label + '\'' + details
+			, 'expected value not to match json-schema \'' + label + '\'' + details
+			, label
+		)
 	});
 
 	//export tdd style
-	var assert = chai.assert;
 	assert.jsonSchema = function (val, exp, msg) {
 		new chai.Assertion(val, msg).to.be.jsonSchema(exp);
 	};

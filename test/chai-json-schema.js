@@ -78,6 +78,7 @@
 		}, {
 			name: 'fruit',
 			schema: {
+				"id": "fruit_v1",
 				"description": "fresh fruit schema v1",
 				"type": "object",
 				"properties": {
@@ -267,6 +268,9 @@
 		});
 
 		describe.skip('fail', function () {
+			it('equal', function() {
+				assert.equal('bleh', 'blah', 'check equality');
+			});
 			_.each(tests, function (testCase) {
 				describe(testCase.name + ' schema', function () {
 					it('assert.jsonSchema()', function () {
