@@ -1,6 +1,6 @@
 {
   "name": "chai-json-schema",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Validate values against json-schema draft v04",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,8 @@
     "grunt": "~0.4.1",
     "mocha-unfunk-reporter": "0.1.10",
     "grunt-mocha": "git://github.com/Bartvds/grunt-mocha",
-    "mocha": "~1.11.0"
+    "mocha": "~1.11.0",
+    "grunt-contrib-jshint": "~0.6.0"
   },
   "dependencies": {
     "tv4": "~1.0.3",

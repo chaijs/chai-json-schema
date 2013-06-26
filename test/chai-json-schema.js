@@ -22,12 +22,12 @@
 		else {
 			_ = window._;
 		}
-		var should = chai.should();
+		chai.should();
 		var expect = chai.expect;
 		var assert = chai.assert;
 
 		chai.use(function (chai, utils) {
-			inspect = utils.objDisplay;
+			var inspect = utils.objDisplay;
 
 			chai.Assertion.addMethod('fail', function (message) {
 				var obj = this._obj;
@@ -115,59 +115,7 @@
 				}}
 			]
 		});
-		//validate data
-		var dataSchema = {
-			"$schema": "http://json-schema.org/draft-04/schema#",
-			"id": "http://chai-json-schema.xyz/",
-			"required": [ "/" ],
-			"type": "array",
-			"minItems": 1,
-			"items": {
-				"type": "object",
-				"required": ["name", "schema", "invalid", "valid"],
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"schema": {
-						"type": "object",
-						"comment": "need remote references to map this to draft v04!"
-					},
-					"invalid": {
-						"type": "array",
-						"$ref": "/dataList"
-					},
-					"valid": {
-						"type": "array",
-						"$ref": "/dataList"
-					}
-				}
-			},
-			"definitions": {
-				"data": {
-					"id": "dataList",
-					"type": "array",
-					"minItems": 21,
-					"items": {
-						"type": "object",
-						"required": ["data"],
-						"properties": {
-							"data": {
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		};
 
-		// why not self-host, dogfooding style?
-		// - "yo dawg! I heard you like schema validation using a validation schema so i put some validation schema schema validation in your schema validation validation."
-		it('self tests', function () {
-			//assert.jsonSchema(tests, dataSchema);
-		});
-
-		// old skool
 		it('has tests', function () {
 			assert.isArray(tests, 'tests');
 			assert.operator(tests.length, '>', 0, 'tests.length');
@@ -268,7 +216,7 @@
 		});
 
 		describe.skip('fail', function () {
-			it('equal', function() {
+			it('equal', function () {
 				assert.equal('bleh', 'blah', 'check equality');
 			});
 			_.each(tests, function (testCase) {

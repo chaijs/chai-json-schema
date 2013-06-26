@@ -59,22 +59,23 @@
 
 	//print validation errors
 	var printError = function (error, data, schema, indent) {
-		var value = jsonpointer.get(data, error.dataPath);
-		var schema = jsonpointer.get(schema, error.schemaPath);
+		var schemaValue = jsonpointer.get(schema, error.schemaPath);
+		var dataValue;
 
 		//assemble error string
 		var ret = '';
 		ret += '\n' + indent + error.message;
 		if (error.dataPath) {
+			dataValue = jsonpointer.get(data, error.dataPath);
 			ret += '\n' + indent + '    field:  ' + error.dataPath;
+			ret += '\n' + indent + '    value:  ' + utils.type(dataValue) + ' -> ' + valueStrim(dataValue);
 		}
-		ret += '\n' + indent + '    value:  ' + utils.type(value) + ' -> ' + valueStrim(value);
-		ret += '\n' + indent + '    schema: ' + schema + ' -> ' + error.schemaPath;
+		ret += '\n' + indent + '    schema: ' + schemaValue + ' -> ' + error.schemaPath;
 
 		//go deeper
-		_.each(error.subErrors, function (f) {
-			ret += printError(indent + indent);
-		});
+		/*_.each(error.subErrors, function (error) {
+			ret += printError(error, data, schema, indent + indent);
+		});*/
 		return ret;
 	};
 
@@ -131,7 +132,7 @@
 			, 'expected value to match json-schema \'' + label + '\'' + details
 			, 'expected value not to match json-schema \'' + label + '\'' + details
 			, label
-		)
+		);
 	});
 
 	//export tdd style
