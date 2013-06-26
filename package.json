@@ -26,6 +26,7 @@
     "chai": "~1.6.1",
     "grunt-mocha-test": "~0.4.0",
     "grunt": "~0.4.1",
+    "grunt-cli": "~0.1",
     "mocha-unfunk-reporter": "0.1.10",
     "grunt-mocha": "git://github.com/Bartvds/grunt-mocha",
     "mocha": "~1.11.0",
