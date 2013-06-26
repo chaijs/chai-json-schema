@@ -1,5 +1,5 @@
 # chai-json-schema
-[![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema)
+[![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
 Assertions for [chai](http://chaijs.com/) to validate values against IETF [json-schema](http://json-schema.org/)
 
