@@ -3,13 +3,11 @@
 
 Assertions for [chai](http://chaijs.com/) to validate values against IETF [json-schema](http://json-schema.org/)
 
-Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple and complex objects formats with the rich and detailed collection of standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
+Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple and complex objects formats with the rich and detailed collection of IETF standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
 
 ## Notes
 
-Due to the nature of test assertions there will be no support for *dynamically*  loading remote references, but I'm looking into exposing tv4's `addSchema(uri, schema)` feature so you can preset the reference lookup. 
-
-And since most testing frameworks support an async test/suite initialisation step I might add a convenient reference preloader using something like jquery, request.js or superagent.
+Due to the synchronous nature of assertions there will be no support for *dynamically* loading remote references, but since the `tv4` instance is persistent you should be able preload the reference lookup using `tv4.addSchema(uri, schema)`.
 
 ## Usage
 
@@ -34,7 +32,7 @@ Have chai use the chai-json-schema module:
 
 ### jsonSchema(value, schema)
 
-Validate that the given javascript value is a valid instance of the specified json-schema. Both the value and schema would likely be loaded from a external datasource but could also be literals or generated data.
+Validate that the given javascript value conforms to the specified json-schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
 
 	var goodApple = {
 		skin: "thin",
@@ -47,7 +45,7 @@ Validate that the given javascript value is a valid instance of the specified js
 		worms: 2
 	};
 	var fruitSchema = {
-		"description": "fresh fruit schema v1",
+		"title": "fresh fruit schema v1",
 		"type": "object",
 		"properties": {
 			"required": ["skin", "colors", "taste"],
@@ -82,6 +80,7 @@ Validate that the given javascript value is a valid instance of the specified js
 
 ## History
 
+* 1.0.2 - Improved reporting, usable with standard reporters
 * 1.0.1 - Added basic validation error reporting
 * 1.0.0 - First release (without schema reference lookup)
 
