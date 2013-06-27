@@ -2,9 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-[Chai](http://chaijs.com/) plugin to validate values against [json-schema](http://json-schema.org/)
+[Chai](http://chaijs.com/) plugin to validate values against IETF standardised [json-schema](http://json-schema.org/)
 
-Use [json-schema draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of IETF standardised [validation terms](http://json-schema.org/latest/json-schema-validation.html). 
+Use [json-schema](http://json-schema.org/) [draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
 
 ## Notes
 
@@ -85,11 +85,13 @@ Validate that the given javascript value conforms to the specified json-schema. 
 
 ## History
 
-* 1.0.2 - Improved reporting, usable with standard reporters
-* 1.0.1 - Added basic validation error reporting
-* 1.0.0 - First release (without schema reference lookup)
+* 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
+* 1.0.2 - Improved reporting, made compatible with standard reporters
+* 1.0.1 - Added basic error reporting
+* 1.0.0 - First release
 
 ## License
 
 Copyright (c) 2013 Bart van der Schoor
+
 Licensed under the MIT license.
