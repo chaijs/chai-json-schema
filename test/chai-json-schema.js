@@ -215,6 +215,7 @@
 			});
 		});
 
+		// enable this to see the error reporting
 		describe.skip('fail', function () {
 			it('equal', function () {
 				assert.equal('bleh', 'blah', 'check equality');
