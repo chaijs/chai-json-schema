@@ -14,8 +14,6 @@ Due to the synchronous nature of assertions there will be no support for *dynami
 
 ### browser-side
 
-**note:** currently untested on IE9 (nut only on FireFox and webkit/phantomJS) but I'll solve this a.s.a.p. with an online test suite!
-
 Include chai-json-schema after [chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4), [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/) and [Underscore.js](http://underscorejs.org/):
 
     <script src="underscore.js"></script>
