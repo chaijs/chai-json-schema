@@ -38,7 +38,7 @@
 		"grunt-mocha-test": "~0.5.0",
 		"grunt": "~0.4.1",
 		"grunt-cli": "~0.1",
-		"mocha-unfunk-reporter": "0.1.10",
+		"mocha-unfunk-reporter": "0.1",
 		"grunt-mocha": "git://github.com/Bartvds/grunt-mocha",
 		"mocha": "~1.11.0",
 		"grunt-contrib-jshint": "~0.6.0"

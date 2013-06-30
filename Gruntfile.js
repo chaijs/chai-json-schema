@@ -40,8 +40,8 @@ module.exports = function (grunt) {
 			}
 		}
 	});
-	require('mocha-unfunk-reporter').option('color', true);
-	// cli commands
+	require('mocha-unfunk-reporter').option('style', 'ansi');
+
 	grunt.registerTask('default', ['test']);
 	grunt.registerTask('server', ['connect:test']);
 	grunt.registerTask('test', ['jshint', 'mochaTest', 'mocha']);
