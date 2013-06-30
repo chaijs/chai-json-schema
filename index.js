@@ -74,8 +74,8 @@
 
 		//go deeper
 		/*_.each(error.subErrors, function (error) {
-			ret += printError(error, data, schema, indent + indent);
-		});*/
+		 ret += printError(error, data, schema, indent + indent);
+		 });*/
 		return ret;
 	};
 
@@ -119,8 +119,12 @@
 					details += printError(error, obj, schema, indent);
 				});
 			}
-			if (result.missing.length > 0) {
-				details += '\n' + 'missing schemas:';
+
+			if (result.missing.length == 1) {
+				details += '\n' + 'missing 1 schema: ' + result.missing[0];
+			}
+			else if (result.missing.length > 0) {
+				details += '\n' + 'missing ' + result.missing.length + ' schemas:';
 				_.each(result.missing, function (missing) {
 					details += '\n' + missing;
 				});

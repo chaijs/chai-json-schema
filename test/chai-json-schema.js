@@ -13,14 +13,15 @@
 }(function (chai, testingServer) {
 
 	describe('chai-json-schema', function () {
-
-		var _;
+		var _, tv4;
 		if (testingServer) {
 			chai.use(require('../index'));
 			_ = require('underscore');
+			tv4 = require('tv4').tv4;
 		}
 		else {
 			_ = window._;
+			tv4 = window.tv4;
 		}
 		chai.should();
 		var expect = chai.expect;
@@ -215,8 +216,26 @@
 			});
 		});
 
+		describe('missing schema', function () {
+			it('will fail the assertion', function () {
+				var schema = {
+					"items": {"$ref": "http://example.com/schema#"}
+				};
+				expect(function () {
+					assert.jsonSchema([1, 2, 3], schema, 'assert value');
+				}).to.fail('assert failure');
+			});
+			it('will pass after adding the schema', function () {
+				var schema = {
+					"items": {"$ref": "http://example.com/schema#"}
+				};
+				tv4.addSchema("http://example.com/schema", {});
+				assert.jsonSchema([1, 2, 3], schema, 'assert value');
+			});
+		});
+
 		// enable this to see the error reporting
-		describe.skip('fail', function () {
+		describe.skip('fail demo', function () {
 			it('equal', function () {
 				assert.equal('bleh', 'blah', 'check equality');
 			});
