@@ -43,9 +43,9 @@ module.exports = function (grunt) {
 	require('mocha-unfunk-reporter').option('style', 'ansi');
 
 	grunt.registerTask('default', ['test']);
-	grunt.registerTask('server', ['connect:test']);
-	grunt.registerTask('test', ['jshint', 'mochaTest', 'mocha']);
+	grunt.registerTask('build', ['jshint']);
+	grunt.registerTask('test', ['build', 'mochaTest', 'mocha']);
 
-	grunt.registerTask('edit_01', ['mochaTest']);
-	grunt.registerTask('edit_02', ['mocha']);
+	grunt.registerTask('edit_01', ['build', 'mochaTest']);
+	grunt.registerTask('edit_02', ['build', 'mocha']);
 };

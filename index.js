@@ -120,7 +120,7 @@
 				});
 			}
 
-			if (result.missing.length == 1) {
+			if (result.missing.length === 1) {
 				details += '\n' + 'missing 1 schema: ' + result.missing[0];
 			}
 			else if (result.missing.length > 0) {
