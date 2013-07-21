@@ -28,6 +28,8 @@
 		jsonpointer = require('jsonpointer.js');
 	}
 
+	//TODO  'implement tv4.freshApi();'
+
 	//check if we have all dependencies
 	assert.ok(_, 'underscore dependency');
 	assert.ok(tv4, 'tv4 dependency');

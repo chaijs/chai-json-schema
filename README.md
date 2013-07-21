@@ -4,7 +4,7 @@
 
 [Chai](http://chaijs.com/) plugin to validate values against IETF standardised [json-schema](http://json-schema.org/)
 
-Use [json-schema](http://json-schema.org/) [draft v04](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
+Use [json-schema](http://json-schema.org/) [draft v4](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
 
 ## Notes
 
