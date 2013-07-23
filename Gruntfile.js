@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 				'test/*.js',
 			],
 			options: {
+				reporter: './node_modules/jshint-path-reporter',
 				jshintrc: '.jshintrc'
 			}
 		},
@@ -21,8 +22,20 @@ module.exports = function (grunt) {
 			options: {
 				reporter: 'mocha-unfunk-reporter'
 			},
-			any: {
+			pass: {
+				src: ['test/suite.js']
+			},
+			spec : {
+				options: {
+					reporter: 'Spec'
+				},
 				src: ['test/*.js']
+			},
+			fail : {
+				options: {
+					reporter: 'Spec'
+				},
+				src: ['test/fail.js']
 			}
 		},
 		mocha: {
@@ -40,11 +53,12 @@ module.exports = function (grunt) {
 			}
 		}
 	});
-	require('mocha-unfunk-reporter').option('style', 'ansi');
 
 	grunt.registerTask('default', ['test']);
 	grunt.registerTask('build', ['jshint']);
-	grunt.registerTask('test', ['build', 'mochaTest', 'mocha']);
+	grunt.registerTask('test', ['build', 'mochaTest:pass', 'mocha']);
+	grunt.registerTask('run', ['build', 'mochaTest']);
+	grunt.registerTask('dev', ['build', 'mochaTest:spec']);
 
 	grunt.registerTask('edit_01', ['build', 'mochaTest']);
 	grunt.registerTask('edit_02', ['build', 'mocha']);

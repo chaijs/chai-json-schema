@@ -2,13 +2,15 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-[Chai](http://chaijs.com/) plugin to validate values against IETF standardised [json-schema](http://json-schema.org/)
+> [Chai](http://chaijs.com/) plugin to validate values against IETF standardised [JSON Schema](http://json-schema.org/).
 
-Use [json-schema](http://json-schema.org/) [draft v4](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
+Use [JSON Schema](http://json-schema.org/) [draft v4](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of element [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
 
 ## Notes
 
-Due to the synchronous nature of assertions there will be no support for *dynamically* loading remote references, but since the `tv4` dependency instance is  persistent you can preset the reference lookup using `tv4.addSchema(uri, schema)`. I'm working on making this more convenient.
+Chai-json-schema will fail also the assertion if a schema has a (`$ref`) referring to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema()` to preset schemas (see below):
+
+JSON Schema's main use is in validating JSON documents and API responses, but it is also a powerful way to describe and validate *any* JavaScript value or object.
 
 ## Usage
 
@@ -18,8 +20,8 @@ Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](
 
 ````html
 <script src="underscore.js"></script>
-<script src="tv4.js"></script>
 <script src="jsonpointer.js"></script>
+<script src="tv4.js"></script>
 <script src="chai.js"></script>
 <script src="chai-json-schema.js"></script>
 ````
@@ -43,7 +45,7 @@ chai.use(require('chai-json-schema'));
 
 ### jsonSchema(value, schema)
 
-Validate that the given javascript value conforms to the specified json-schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
+Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
 
 ````js
 var goodApple = {
@@ -90,8 +92,80 @@ badApple.should.not.be.jsonSchema(fruitSchema);
 assert.jsonSchema(goodApple, fruitSchema);
 assert.notJsonSchema(badApple, fruitSchema);
 ````
+
+## Additional API
+
+The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations: 
+
+````js
+chai.tv4.addSchema(uri, schema);
+````
+
+There are other useful methods:
+
+````js
+//retrieve infos
+var list = chai.tv4.getMissingUris();
+var list = chai.tv4.getMissingUris(/^https?:/);
+var list = chai.tv4.getSchemaUris(/example.com/);
+
+var schema = chai.tv4.getSchema('http://example.com/item');
+
+chai.tv4.dropSchemas();
+````
+
+For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
+
+### Cyclical objects
+
+There is a non-standard tv4 property that will be passed to the internal `tv4.validateResult()` call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
+
+````
+chai.tv4.cyclicCheck = true;
+```` 
+
+This is slightly slower then regular validation so it is disabled by default. 
+
+### Remote references
+
+Due to the synchronous nature of assertions there will be no support for dynamically loading remote references during validation. But it is possible to use the asynchronous preparation feature of your favourite test runner to preload schemas:
+
+````js
+// simplified example using a bdd-style async before(); as used in mocha, jasmine etc. 
+before(function (done) {
+
+	// add first instance manually
+	chai.tv4.addSchema(uri, schema);
+
+	// retrieve the list of external uris
+	var checkMissing = function () {
+		var missing = chai.tv4.getMissingUris();
+		if (missing.length === 0) {
+			//all $ref's solved
+			done();
+			return;
+		}
+		// load a schema using your favourite JSON loader (jQuery, request, SuperAgent etc)
+		var uri = missing.pop();
+		myFavoriteJsonLoader.load(uri, function (err, schema) {
+			if (err || !schema) {
+				done(err || 'no data loaded');
+				return;
+			}
+			// add it
+			chai.tv4.addSchema(uri, schema);
+			// iterate
+			checkMissing();
+		});
+	};
+	// start loading
+	checkMissing();
+});
+````
+
 ## History
 
+* 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
 * 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
 * 1.0.2 - Improved reporting, made compatible with standard reporters
 * 1.0.1 - Added basic error reporting

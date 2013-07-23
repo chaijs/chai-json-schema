@@ -13,15 +13,13 @@
 }(function (chai, testingServer) {
 
 	describe('chai-json-schema', function () {
-		var _, tv4;
+		var _;
 		if (testingServer) {
 			chai.use(require('../index'));
 			_ = require('underscore');
-			tv4 = require('tv4').tv4;
 		}
 		else {
 			_ = window._;
-			tv4 = window.tv4;
 		}
 		chai.should();
 		var expect = chai.expect;
@@ -229,7 +227,7 @@
 				var schema = {
 					"items": {"$ref": "http://example.com/schema#"}
 				};
-				tv4.addSchema("http://example.com/schema", {});
+				chai.tv4.addSchema("http://example.com/schema", {});
 				assert.jsonSchema([1, 2, 3], schema, 'assert value');
 			});
 		});

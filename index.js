@@ -35,6 +35,10 @@
 	assert.ok(tv4, 'tv4 dependency');
 	assert.ok(jsonpointer, 'jsonpointer dependency');
 
+    //export and use our own instance
+    chai.tv4 = tv4.freshApi();
+    chai.tv4.cyclicCheck = false;
+
 	//make a compact debug string from any object
 	var valueStrim = function (value, cutoff) {
 		var strimLimit = typeof cutoff === 'undefined' ? 60 : cutoff;
@@ -60,7 +64,7 @@
 	};
 
 	//print validation errors
-	var printError = function (error, data, schema, indent) {
+	var formatResult = function (error, data, schema, indent) {
 		var schemaValue = jsonpointer.get(schema, error.schemaPath);
 		var dataValue;
 
@@ -76,7 +80,7 @@
 
 		//go deeper
 		/*_.each(error.subErrors, function (error) {
-		 ret += printError(error, data, schema, indent + indent);
+		 ret += formatResult(error, data, schema, indent + indent);
 		 });*/
 		return ret;
 	};
@@ -89,9 +93,9 @@
 		assert.ok(schema, 'schema');
 
 		//single result
-		var result = tv4.validateResult(obj, schema);
+		var result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck);
 		//assertion fails on missing schemas
-		var pass = result.valid && result.missing.length === 0;
+		var pass = result.valid && (result.missing.length === 0);
 
 		//assemble readable message
 		var label;
@@ -114,11 +118,11 @@
 			details += ' -> \'' + valueStrim(obj, 30) + '\'';
 
 			if (result.error) {
-				details += printError(result.error, obj, schema, indent);
+				details += formatResult(result.error, obj, schema, indent);
 			}
 			else if (result.errors) {
 				_.each(result.errors, function (error) {
-					details += printError(error, obj, schema, indent);
+					details += formatResult(error, obj, schema, indent);
 				});
 			}
 
