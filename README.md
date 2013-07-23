@@ -18,28 +18,22 @@ JSON Schema's main use is in validating JSON documents and API responses, but it
 
 Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4), [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/) and [Underscore.js](http://underscorejs.org/):
 
-````html
-<script src="underscore.js"></script>
-<script src="jsonpointer.js"></script>
-<script src="tv4.js"></script>
-<script src="chai.js"></script>
-<script src="chai-json-schema.js"></script>
-````
+    <script src="underscore.js"></script>
+    <script src="jsonpointer.js"></script>
+    <script src="tv4.js"></script>
+    <script src="chai.js"></script>
+    <script src="chai-json-schema.js"></script>
 
 ### server-side
 
 Install from npm:
 
-````
-$ npm install chai-json-schema
-````
+    $ npm install chai-json-schema
 
 Have chai use the chai-json-schema module:
 
-````js
-var chai = require('chai');
-chai.use(require('chai-json-schema'));
-````
+    var chai = require('chai');
+    chai.use(require('chai-json-schema'));
 
 ## Assertions
 
@@ -47,72 +41,66 @@ chai.use(require('chai-json-schema'));
 
 Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
 
-````js
-var goodApple = {
-	skin: "thin",
-	colors: ["red", "green", "yellow"],
-	taste: 10
-};
-var badApple = {
-	colors: ["brown"],
-	taste: 0,
-	worms: 2
-};
-var fruitSchema = {
-	"title": "fresh fruit schema v1",
-	"type": "object",
-	"properties": {
-		"required": ["skin", "colors", "taste"],
-		"colors": {
-			"type": "array",
-			"minItems": 1,
-			"uniqueItems": true,
-			"items": {
-				"type": "string"
-			}
-		},
-		"skin": {
-			"type": "string"
-		},
-		"taste": {
-			"type": "number",
-			"minimum": 5
-		}
-	}
-};
-
-//bdd style
-expect(goodApple).to.be.jsonSchema(fruitSchema);
-expect(badApple).to.not.be.jsonSchema(fruitSchema);
-
-goodApple.should.be.jsonSchema(fruitSchema);
-badApple.should.not.be.jsonSchema(fruitSchema);
-
-//tdd style
-assert.jsonSchema(goodApple, fruitSchema);
-assert.notJsonSchema(badApple, fruitSchema);
-````
+    var good    Apple = {
+    	skin: "thin",
+    	colors: ["red", "green", "yellow"],
+    	taste: 10
+    };
+    var badApple = {
+    	colors: ["brown"],
+    	taste: 0,
+    	worms: 2
+    };
+    var fruitSchema = {
+    	"title": "fresh fruit schema v1",
+    	"type": "object",
+    	"properties": {
+    		"required": ["skin", "colors", "taste"],
+    		"colors": {
+    			"type": "array",
+    			"minItems": 1,
+    			"uniqueItems": true,
+    			"items": {
+    				"type": "string"
+    			}
+    		},
+    		"skin": {
+    			"type": "string"
+    		},
+    		"taste": {
+    			"type": "number",
+    			"minimum": 5
+    		}
+    	}
+    };
+    
+    //bdd style
+    expect(goodApple).to.be.jsonSchema(fruitSchema);
+    expect(badApple).to.not.be.jsonSchema(fruitSchema);
+    
+    goodApple.should.be.jsonSchema(fruitSchema);
+    badApple.should.not.be.jsonSchema(fruitSchema);
+    
+    //tdd style
+    assert.jsonSchema(goodApple, fruitSchema);
+    assert.notJsonSchema(badApple, fruitSchema);
 
 ## Additional API
 
 The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations: 
 
-````js
-chai.tv4.addSchema(uri, schema);
-````
+    chai.tv4.addSchema(uri, schema);
 
 There are other useful methods:
 
-````js
-//retrieve infos
-var list = chai.tv4.getMissingUris();
-var list = chai.tv4.getMissingUris(/^https?:/);
-var list = chai.tv4.getSchemaUris(/example.com/);
-
-var schema = chai.tv4.getSchema('http://example.com/item');
-
-chai.tv4.dropSchemas();
-````
+    //retrieve infos
+    var list = chai.tv4.getMissingUris();
+    var list = chai.tv4.getMissingUris(/^https?:/);
+    var list = chai.tv4.getSchemaUris(/example.com/);
+    
+    var schema = chai.tv4.getSchema('http://example.com/item');
+    
+    chai.tv4.dropSchemas();
 
 For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
 
@@ -120,48 +108,46 @@ For more API methods and info on the validator see the [tv4 documentation](https
 
 There is a non-standard tv4 property that will be passed to the internal `tv4.validateResult()` call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
 
-````
-chai.tv4.cyclicCheck = true;
-```` 
-
+    chai.tv4.cyclicCheck = true;
+ 
 This is slightly slower then regular validation so it is disabled by default. 
 
 ### Remote references
 
-Due to the synchronous nature of assertions there will be no support for dynamically loading remote references during validation. But it is possible to use the asynchronous preparation feature of your favourite test runner to preload schemas:
+Due to the synchronous nature of assertions there will be no support for dynamically loading remote references during validation.
 
-````js
-// simplified example using a bdd-style async before(); as used in mocha, jasmine etc. 
-before(function (done) {
+Use the asynchronous preparation feature of your favourite test runner to preload remote schemas:
 
-	// add first instance manually
-	chai.tv4.addSchema(uri, schema);
-
-	// retrieve the list of external uris
-	var checkMissing = function () {
-		var missing = chai.tv4.getMissingUris();
-		if (missing.length === 0) {
-			//all $ref's solved
-			done();
-			return;
-		}
-		// load a schema using your favourite JSON loader (jQuery, request, SuperAgent etc)
-		var uri = missing.pop();
-		myFavoriteJsonLoader.load(uri, function (err, schema) {
-			if (err || !schema) {
-				done(err || 'no data loaded');
-				return;
-			}
-			// add it
-			chai.tv4.addSchema(uri, schema);
-			// iterate
-			checkMissing();
-		});
-	};
-	// start loading
-	checkMissing();
-});
-````
+    // simplified example using a bdd-style async before(); as used in mocha, jasmine etc. 
+    before(function (done) {
+    
+    	// add first instance manually
+    	chai.tv4.addSchema(uri, schema);
+    
+    	// retrieve the list of external uris
+    	var checkMissing = function () {
+    		var missing = chai.tv4.getMissingUris();
+    		if (missing.length === 0) {
+    			//all $ref's solved
+    			done();
+    			return;
+    		}
+    		// load a schema using your favourite JSON loader (jQuery, request, SuperAgent etc)
+    		var uri = missing.pop();
+    		myFavoriteJsonLoader.load(uri, function (err, schema) {
+    			if (err || !schema) {
+    				done(err || 'no data loaded');
+    				return;
+    			}
+    			// add it
+    			chai.tv4.addSchema(uri, schema);
+    			// iterate
+    			checkMissing();
+    		});
+    	};
+    	// start loading
+    	checkMissing();
+    });
 
 ## History
 
@@ -174,19 +160,16 @@ before(function (done) {
 ## Build
 
 Install development dependencies in your git checkout:
-````
-$ npm install
-````
+
+    $ npm install
 
 You need the global [grunt](http://gruntjs.com) command:
-````
-$ npm install grunt-cli -g
-````
+
+    $ npm install grunt-cli -g
 
 Build and run tests:
-````
-$ grunt
-````
+
+    $ grunt
 
 See the `Gruntfile` for additional commands.
 
