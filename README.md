@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-> [Chai](http://chaijs.com/) plugin to validate values against IETF standardised [JSON Schema](http://json-schema.org/).
+[Chai](http://chaijs.com/) plugin to validate values against IETF standardised [JSON Schema](http://json-schema.org/).
 
 Use [JSON Schema](http://json-schema.org/) [draft v4](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of element [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
 
@@ -41,7 +41,7 @@ Have chai use the chai-json-schema module:
 
 Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
 
-    var good    Apple = {
+    var goodApple = {
     	skin: "thin",
     	colors: ["red", "green", "yellow"],
     	taste: 10
@@ -118,35 +118,46 @@ Due to the synchronous nature of assertions there will be no support for dynamic
 
 Use the asynchronous preparation feature of your favourite test runner to preload remote schemas:
 
-    // simplified example using a bdd-style async before(); as used in mocha, jasmine etc. 
-    before(function (done) {
+    // simplified example using a bdd-style async before(); 
+    // as used in mocha, jasmine etc.
+
+    before(function (callback) {
     
-    	// add first instance manually
-    	chai.tv4.addSchema(uri, schema);
-    
-    	// retrieve the list of external uris
-    	var checkMissing = function () {
-    		var missing = chai.tv4.getMissingUris();
-    		if (missing.length === 0) {
-    			//all $ref's solved
-    			done();
-    			return;
-    		}
-    		// load a schema using your favourite JSON loader (jQuery, request, SuperAgent etc)
-    		var uri = missing.pop();
-    		myFavoriteJsonLoader.load(uri, function (err, schema) {
-    			if (err || !schema) {
-    				done(err || 'no data loaded');
-    				return;
-    			}
-    			// add it
-    			chai.tv4.addSchema(uri, schema);
-    			// iterate
-    			checkMissing();
-    		});
-    	};
-    	// start loading
-    	checkMissing();
+        // iterate missing
+        var checkMissing = function (callback) {
+            var missing = chai.tv4.getMissingUris();
+            if (missing.length === 0) {
+                // all $ref's solved
+                callback();
+                return;
+            }
+            // load a schema using your favourite JSON loader
+            // (jQuery, request, SuperAgent etc)
+            var uri = missing.pop();
+            myFavoriteJsonLoader.load(uri, function (err, schema) {
+                if (err || !schema) {
+                    callback(err || 'no data loaded');
+                    return;
+                }
+                // add it
+                chai.tv4.addSchema(uri, schema);
+                // iterate
+                checkMissing(callback);
+            });
+        };
+
+        // load first instance manually
+        myFavoriteJsonLoader.load(uri, function (err, schema) {
+            if (err || !schema) {
+                callback(err || 'no data loaded');
+                return;
+            }
+            // add it
+            chai.tv4.addSchema(uri, schema);
+
+            // start checking
+            checkMissing(callback);
+        });
     });
 
 ## History
