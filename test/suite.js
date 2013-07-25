@@ -40,208 +40,186 @@
 						err instanceof chai.AssertionError
 						, message + ' expected #{this} to fail, but it threw ' + inspect(err));
 					/*this.assert(
-						err.message === message
-						, 'expected #{this} to fail with ' + inspect(message) + ', but got ' + inspect(err.message));*/
+					 err.message === message
+					 , 'expected #{this} to fail with ' + inspect(message) + ', but got ' + inspect(err.message));*/
 					return;
 				}
 
 				this.assert(false, message + ' expected #{this} to fail');
 			});
 		});
+		describe('api', function () {
+			it('exports tv4', function () {
+				assert.isObject(chai.tv4, 'chai.tv4');
+				// check some methods
+				assert.isFunction(chai.tv4.addSchema, 'chai.tv4.addSchema');
+				assert.isFunction(chai.tv4.getMissingUris, 'chai.tv4.getMissingUris');
+			});
 
-		var tests = [];
-		tests.push({
-			name: 'properties',
-			schema: {
-				"properties": {
-					"intKey": {
-						"type": "integer"
-					},
-					"stringKey": {
-						"type": "string"
-					}
-				}
-			},
-			valid: [
-				{ data: {
-					"intKey": 1,
-					"stringKey": "one"
-				}}
-			],
-			invalid: [
-				{data: {
-					"intKey": 3,
-					"stringKey": false
-				}}
-			]
-		}, {
-			name: 'fruit',
-			schema: {
-				"id": "fruit_v1",
-				"description": "fresh fruit schema v1",
-				"type": "object",
-				"properties": {
-					"required": ["skin", "colors", "taste"],
-					"colors": {
-						"type": "array",
-						"minItems": 1,
-						"uniqueItems": true,
-						"items": {
+		});
+		describe('assertions', function () {
+			var tests = [];
+			tests.push({
+				name: 'properties',
+				schema: {
+					"properties": {
+						"intKey": {
+							"type": "integer"
+						},
+						"stringKey": {
 							"type": "string"
 						}
-					},
-					"skin": {
-						"type": "string"
-					},
-					"taste": {
-						"type": "number",
-						"minimum": 5
 					}
-				}
-			},
-			valid: [
-				{ data: {
-					skin: "thin",
-					colors: ["red", "green", "yellow"],
-					taste: 10
-				}}
-			],
-			invalid: [
-				{data: {
-					colors: ["brown"],
-					taste: 0,
-					worms: 2
-				}}
-			]
-		});
+				},
+				valid: [
+					{ data: {
+						"intKey": 1,
+						"stringKey": "one"
+					}}
+				],
+				invalid: [
+					{data: {
+						"intKey": 3,
+						"stringKey": false
+					}}
+				]
+			});
+			tests.push({
+				name: 'fruit',
+				schema: {
+					"id": "fruit_v1",
+					"description": "fresh fruit schema v1",
+					"type": "object",
+					"properties": {
+						"required": ["skin", "colors", "taste"],
+						"colors": {
+							"type": "array",
+							"minItems": 1,
+							"uniqueItems": true,
+							"items": {
+								"type": "string"
+							}
+						},
+						"skin": {
+							"type": "string"
+						},
+						"taste": {
+							"type": "number",
+							"minimum": 5
+						}
+					}
+				},
+				valid: [
+					{ data: {
+						skin: "thin",
+						colors: ["red", "green", "yellow"],
+						taste: 10
+					}}
+				],
+				invalid: [
+					{data: {
+						colors: ["brown"],
+						taste: 0,
+						worms: 2
+					}}
+				]
+			});
+			describe('check test data', function () {
+				it('has tests', function () {
+					assert.isArray(tests, 'tests');
+					assert.operator(tests.length, '>', 0, 'tests.length');
+				});
 
-		it('has tests', function () {
-			assert.isArray(tests, 'tests');
-			assert.operator(tests.length, '>', 0, 'tests.length');
-		});
+				_.each(tests, function (testCase) {
+					describe('test ' + testCase.name, function () {
+						it('has settings', function () {
+							assert.isObject(testCase.schema, 'schema');
 
-		_.each(tests, function (testCase) {
-			describe('test ' + testCase.name, function () {
-				it('has settings', function () {
-					assert.isObject(testCase.schema, 'schema');
+							assert.isArray(testCase.valid, 'valid');
+							assert.operator(testCase.valid.length, '>', 0, 'valid.length');
 
-					assert.isArray(testCase.valid, 'valid');
-					assert.operator(testCase.valid.length, '>', 0, 'valid.length');
-
-					assert.isArray(testCase.invalid, 'invalid');
-					assert.operator(testCase.invalid.length, '>', 0, 'invalid.length');
+							assert.isArray(testCase.invalid, 'invalid');
+							assert.operator(testCase.invalid.length, '>', 0, 'invalid.length');
+						});
+					});
 				});
 			});
-		});
 
-		describe('bdd', function () {
+			describe('bdd', function () {
 
-			it('is defined', function () {
-				assert.isFunction(expect(true).to.be.jsonSchema, 'expect jsonSchema');
-				assert.isFunction({}.should.be.jsonSchema, 'should jsonSchema');
-			});
+				it('is defined', function () {
+					assert.isFunction(expect(true).to.be.jsonSchema, 'expect jsonSchema');
+					assert.isFunction({}.should.be.jsonSchema, 'should jsonSchema');
+				});
 
-			_.each(tests, function (testCase) {
-				describe(testCase.name + ' schema', function () {
-					it('should/expect', function () {
-						_.each(testCase.valid, function (obj, i) {
-							expect(obj.data).to.be.jsonSchema(testCase.schema, 'expect() #' + i);
-							obj.data.should.be.jsonSchema(testCase.schema, 'should #' + i);
-						});
-					});
-					it('should/expect negation', function () {
-						_.each(testCase.invalid, function (obj, i) {
-							expect(obj.data).to.not.be.jsonSchema(testCase.schema, 'expect() #' + i);
-							obj.data.should.not.be.jsonSchema(testCase.schema, 'should #' + i);
-						});
-					});
-
-					it('should/expect fails on invalid', function () {
-						_.each(testCase.invalid, function (obj, i) {
-							expect(function () {
+				_.each(tests, function (testCase) {
+					describe(testCase.name + ' schema', function () {
+						it('should/expect', function () {
+							_.each(testCase.valid, function (obj, i) {
 								expect(obj.data).to.be.jsonSchema(testCase.schema, 'expect() #' + i);
 								obj.data.should.be.jsonSchema(testCase.schema, 'should #' + i);
-							}).to.fail('#' + i);
+							});
 						});
-					});
-
-					it('should/expect fails negation on valid', function () {
-						_.each(testCase.valid, function (obj, i) {
-							expect(function () {
+						it('should/expect negation', function () {
+							_.each(testCase.invalid, function (obj, i) {
 								expect(obj.data).to.not.be.jsonSchema(testCase.schema, 'expect() #' + i);
 								obj.data.should.not.be.jsonSchema(testCase.schema, 'should #' + i);
-							}).to.fail('#' + i);
+							});
+						});
+
+						it('should/expect fails on invalid', function () {
+							_.each(testCase.invalid, function (obj, i) {
+								expect(function () {
+									expect(obj.data).to.be.jsonSchema(testCase.schema, 'expect() #' + i);
+									obj.data.should.be.jsonSchema(testCase.schema, 'should #' + i);
+								}).to.fail('#' + i);
+							});
+						});
+
+						it('should/expect fails negation on valid', function () {
+							_.each(testCase.valid, function (obj, i) {
+								expect(function () {
+									expect(obj.data).to.not.be.jsonSchema(testCase.schema, 'expect() #' + i);
+									obj.data.should.not.be.jsonSchema(testCase.schema, 'should #' + i);
+								}).to.fail('#' + i);
+							});
 						});
 					});
 				});
 			});
-		});
-		describe('tdd', function () {
-			it('is defined', function () {
-				assert.isFunction(assert.jsonSchema, 'jsonSchema');
-				assert.isFunction(assert.notJsonSchema, 'notJsonSchema');
-			});
+			describe('tdd', function () {
+				it('is defined', function () {
+					assert.isFunction(assert.jsonSchema, 'jsonSchema');
+					assert.isFunction(assert.notJsonSchema, 'notJsonSchema');
+				});
 
-			_.each(tests, function (testCase) {
-				describe(testCase.name + ' schema', function () {
-					it('assert.jsonSchema()', function () {
-						_.each(testCase.valid, function (obj, i) {
-							assert.jsonSchema(obj.data, testCase.schema, '#' + i);
-						});
-					});
-					it('assert.notJsonSchema()', function () {
-						_.each(testCase.invalid, function (obj, i) {
-							assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
-						});
-					});
-
-					it('assert.jsonSchema() fails on invalid', function () {
-						_.each(testCase.invalid, function (obj, i) {
-							expect(function () {
+				_.each(tests, function (testCase) {
+					describe(testCase.name + ' schema', function () {
+						it('assert.jsonSchema()', function () {
+							_.each(testCase.valid, function (obj, i) {
 								assert.jsonSchema(obj.data, testCase.schema, '#' + i);
-							}).to.fail('#' + i);
+							});
 						});
-					});
-
-					it('assert.notJsonSchema() fails on valid', function () {
-						_.each(testCase.valid, function (obj, i) {
-							expect(function () {
+						it('assert.notJsonSchema()', function () {
+							_.each(testCase.invalid, function (obj, i) {
 								assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
-							}).to.fail('#' + i);
+							});
 						});
-					});
-				});
-			});
-		});
 
-		describe('missing schema', function () {
-			it('will fail the assertion', function () {
-				var schema = {
-					"items": {"$ref": "http://example.com/schema#"}
-				};
-				expect(function () {
-					assert.jsonSchema([1, 2, 3], schema, 'assert value');
-				}).to.fail('assert failure');
-			});
-			it('will pass after adding the schema', function () {
-				var schema = {
-					"items": {"$ref": "http://example.com/schema#"}
-				};
-				chai.tv4.addSchema("http://example.com/schema", {});
-				assert.jsonSchema([1, 2, 3], schema, 'assert value');
-			});
-		});
+						it('assert.jsonSchema() fails on invalid', function () {
+							_.each(testCase.invalid, function (obj, i) {
+								expect(function () {
+									assert.jsonSchema(obj.data, testCase.schema, '#' + i);
+								}).to.fail('#' + i);
+							});
+						});
 
-		// enable this to see the error reporting
-		describe.skip('fail demo', function () {
-			it('equal', function () {
-				assert.equal('bleh', 'blah', 'check equality');
-			});
-			_.each(tests, function (testCase) {
-				describe(testCase.name + ' schema', function () {
-					it('assert.jsonSchema()', function () {
-						_.each(testCase.invalid, function (obj, i) {
-							assert.jsonSchema(obj.data, testCase.schema, '#' + i);
+						it('assert.notJsonSchema() fails on valid', function () {
+							_.each(testCase.valid, function (obj, i) {
+								expect(function () {
+									assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
+								}).to.fail('#' + i);
+							});
 						});
 					});
 				});

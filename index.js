@@ -14,29 +14,27 @@
 }(function (chai, utils) {
 
 	var assert = chai.assert;
-	var tv4, _, jsonpointer;
+	var tv4Module, _, jsonpointer;
 
 	if (typeof window === 'object' && typeof document === 'object') {
 		// browser-side
 		_ = window._;
-		tv4 = window.tv4;
+		tv4Module = window.tv4;
 		jsonpointer = window.jsonpointer;
 	} else {
 		// server-side
 		_ = require('underscore');
-		tv4 = require('tv4').tv4;
+		tv4Module = require('tv4').tv4;
 		jsonpointer = require('jsonpointer.js');
 	}
 
-	//TODO  'implement tv4.freshApi();'
-
 	//check if we have all dependencies
 	assert.ok(_, 'underscore dependency');
-	assert.ok(tv4, 'tv4 dependency');
+	assert.ok(tv4Module, 'tv4 dependency');
 	assert.ok(jsonpointer, 'jsonpointer dependency');
 
     //export and use our own instance
-    chai.tv4 = tv4.freshApi();
+    chai.tv4 = tv4Module.freshApi();
     chai.tv4.cyclicCheck = false;
 
 	//make a compact debug string from any object

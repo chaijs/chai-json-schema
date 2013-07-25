@@ -135,9 +135,7 @@
 
 		// enable this to see the error reporting
 		describe('fail demo', function () {
-			it('equal', function () {
-				assert.equal('bleh', 'blah', 'check equality');
-			});
+
 			_.each(tests, function (testCase) {
 				describe(testCase.name + ' schema', function () {
 					it('assert.jsonSchema()', function () {
