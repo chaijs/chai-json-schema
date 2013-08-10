@@ -16,9 +16,8 @@ JSON Schema's main use is in validating JSON documents and API responses, but it
 
 ### browser-side
 
-Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4), [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/) and [Underscore.js](http://underscorejs.org/):
+Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [jsonpointer](https://github.com/alexeykuzmin/jsonpointer.js/):
 
-    <script src="underscore.js"></script>
     <script src="jsonpointer.js"></script>
     <script src="tv4.js"></script>
     <script src="chai.js"></script>
@@ -93,12 +92,14 @@ The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schema
 
 There are other useful methods:
 
-    //retrieve infos
     var list = chai.tv4.getMissingUris();
     var list = chai.tv4.getMissingUris(/^https?:/);
+
+    var list = chai.tv4.getSchemaUris();
     var list = chai.tv4.getSchemaUris(/example.com/);
     
     var schema = chai.tv4.getSchema('http://example.com/item');
+    var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
     
     chai.tv4.dropSchemas();
 
@@ -121,7 +122,7 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
     // simplified example using a bdd-style async before(); 
     // as used in mocha, jasmine etc.
 
-    before(function (callback) {
+    before(function (done) {
     
         // iterate missing
         var checkMissing = function (callback) {
@@ -149,24 +150,25 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
         // load first instance manually
         myFavoriteJsonLoader.load(uri, function (err, schema) {
             if (err || !schema) {
-                callback(err || 'no data loaded');
+                done(err || 'no data loaded');
                 return;
             }
             // add it
             chai.tv4.addSchema(uri, schema);
 
             // start checking
-            checkMissing(callback);
+            checkMissing(done);
         });
     });
 
 ## History
 
+* 1.0.5 - Dropped underscore dependency, various small improvements. 
 * 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
 * 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
-* 1.0.2 - Improved reporting, made compatible with standard reporters
-* 1.0.1 - Added basic error reporting
-* 1.0.0 - First release
+* 1.0.2 - Improved reporting, made compatible with standard reporters.
+* 1.0.1 - Added basic error reporting.
+* 1.0.0 - First release.
 
 ## Build
 

@@ -14,31 +14,35 @@
 }(function (chai, utils) {
 
 	var assert = chai.assert;
-	var tv4Module, _, jsonpointer;
+	var flag = utils.flag;
+	var tv4Module, jsonpointer;
 
 	if (typeof window === 'object' && typeof document === 'object') {
 		// browser-side
-		_ = window._;
 		tv4Module = window.tv4;
 		jsonpointer = window.jsonpointer;
 	} else {
 		// server-side
-		_ = require('underscore');
 		tv4Module = require('tv4').tv4;
 		jsonpointer = require('jsonpointer.js');
 	}
 
 	//check if we have all dependencies
-	assert.ok(_, 'underscore dependency');
 	assert.ok(tv4Module, 'tv4 dependency');
 	assert.ok(jsonpointer, 'jsonpointer dependency');
 
-    //export and use our own instance
-    chai.tv4 = tv4Module.freshApi();
-    chai.tv4.cyclicCheck = false;
+	//export and use our own instance
+	chai.tv4 = tv4Module.freshApi();
+	chai.tv4.cyclicCheck = false;
+
+	function forEachI(arr, func, scope) {
+		for (var i = arr.length, ii = arr.length; i < ii; i++) {
+			func.call(scope, arr[i], i, arr);
+		}
+	}
 
 	//make a compact debug string from any object
-	var valueStrim = function (value, cutoff) {
+	function valueStrim(value, cutoff) {
 		var strimLimit = typeof cutoff === 'undefined' ? 60 : cutoff;
 
 		var t = typeof value;
@@ -59,7 +63,7 @@
 			return JSON.stringify(value);
 		}
 		return '' + value;
-	};
+	}
 
 	//print validation errors
 	var formatResult = function (error, data, schema, indent) {
@@ -77,14 +81,17 @@
 		ret += '\n' + indent + '    schema: ' + schemaValue + ' -> ' + error.schemaPath;
 
 		//go deeper
-		/*_.each(error.subErrors, function (error) {
+		/*forEachIh(error.subErrors, function (error) {
 		 ret += formatResult(error, data, schema, indent + indent);
 		 });*/
 		return ret;
 	};
 
 	//add the method
-	chai.Assertion.addMethod('jsonSchema', function (schema) {
+	chai.Assertion.addMethod('jsonSchema', function (schema, msg) {
+		if (msg) {
+			flag(this, 'message', msg);
+		}
 		var obj = this._obj;
 
 		//note: don't assert.ok(obj) -> zero or empty string is a valid and describable json-value
@@ -119,7 +126,7 @@
 				details += formatResult(result.error, obj, schema, indent);
 			}
 			else if (result.errors) {
-				_.each(result.errors, function (error) {
+				forEachI(result.errors, function (error) {
 					details += formatResult(error, obj, schema, indent);
 				});
 			}
@@ -129,7 +136,7 @@
 			}
 			else if (result.missing.length > 0) {
 				details += '\n' + 'missing ' + result.missing.length + ' schemas:';
-				_.each(result.missing, function (missing) {
+				forEachI(result.missing, function (missing) {
 					details += '\n' + missing;
 				});
 			}

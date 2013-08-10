@@ -39,15 +39,13 @@
 					this.assert(
 						err instanceof chai.AssertionError
 						, message + ' expected #{this} to fail, but it threw ' + inspect(err));
-					/*this.assert(
-					 err.message === message
-					 , 'expected #{this} to fail with ' + inspect(message) + ', but got ' + inspect(err.message));*/
 					return;
 				}
 
 				this.assert(false, message + ' expected #{this} to fail');
 			});
 		});
+
 		describe('api', function () {
 			it('exports tv4', function () {
 				assert.isObject(chai.tv4, 'chai.tv4');
@@ -55,8 +53,8 @@
 				assert.isFunction(chai.tv4.addSchema, 'chai.tv4.addSchema');
 				assert.isFunction(chai.tv4.getMissingUris, 'chai.tv4.getMissingUris');
 			});
-
 		});
+
 		describe('assertions', function () {
 			var tests = [];
 			tests.push({
