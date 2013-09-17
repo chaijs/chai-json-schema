@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 			},
 			fail : {
 				options: {
-					reporter: 'Spec'
+					reporter: 'mocha-unfunk-reporter'
 				},
 				src: ['test/fail.js']
 			}
@@ -62,4 +62,5 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('edit_01', ['build', 'mochaTest']);
 	grunt.registerTask('edit_02', ['build', 'mocha']);
+	grunt.registerTask('edit_03', ['build', 'mochaTest:fail']);
 };

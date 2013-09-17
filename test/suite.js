@@ -88,8 +88,8 @@
 					"id": "fruit_v1",
 					"description": "fresh fruit schema v1",
 					"type": "object",
+					"required": ["skin", "colors", "taste"],
 					"properties": {
-						"required": ["skin", "colors", "taste"],
 						"colors": {
 							"type": "array",
 							"minItems": 1,
@@ -104,6 +104,10 @@
 						"taste": {
 							"type": "number",
 							"minimum": 5
+						},
+						"worms": {
+							"type": "number",
+							"maximum": 1
 						}
 					}
 				},
@@ -112,13 +116,35 @@
 						skin: "thin",
 						colors: ["red", "green", "yellow"],
 						taste: 10
+					}},
+					{ data: {
+						skin: "thin",
+						colors: ["yellow"],
+						taste: 5,
+						worms: 1
 					}}
 				],
 				invalid: [
-					{data: {
-						colors: ["brown"],
-						taste: 0,
-						worms: 2
+					{ data: {
+						skin: "thin",
+						colors: ["yellow"],
+						taste: 0
+					}},
+					{ data: {
+						skin: "thin",
+						colors: [1, 2, 3],
+						taste: 5
+					}},
+					{ data: {
+						skin: 321,
+						colors: ["yellow"],
+						taste: 5
+					}},
+					{ data: {
+						skin: "thin",
+						colors: ["yellow"],
+						taste: 5,
+						worms: 3
 					}}
 				]
 			});

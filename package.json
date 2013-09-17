@@ -1,7 +1,7 @@
 {
   "name": "chai-json-schema",
-  "version": "1.0.5",
-  "description": "Chai plugin to validate values against JSON Schema v4",
+  "version": "1.0.6",
+  "description": "Chai assertions to validate values against JSON Schema v4",
   "author": {
     "name": "Bart van der Schoor",
     "url": "https://github.com/Bartvds"
@@ -38,19 +38,22 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "jsonpointer.js": "~0.3.0",
-    "tv4": "~1.0.5"
+    "jsonpointer.js": "0.3.0",
+    "tv4": "1.0.8"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "0.4.1",
     "grunt-cli": "~0.1",
-    "underscore": "~1.4.4",
+    "underscore": "~1.4",
     "chai": "~1.6.1",
     "mocha": "~1.11.0",
     "grunt-mocha": "~0.4.0",
     "grunt-mocha-test": "~0.5.0",
-    "grunt-contrib-jshint": "~0.6.0",
-    "mocha-unfunk-reporter": "0.2",
-    "jshint-path-reporter": "~0.1.2"
+    "grunt-contrib-jshint": "0.6.3",
+    "mocha-unfunk-reporter": "~0.2",
+    "jshint-path-reporter": "~0.1"
+  },
+  "peerDependencies": {
+    "chai": ">= 1.6.1 < 2"
   }
 }

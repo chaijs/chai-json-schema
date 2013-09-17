@@ -47,7 +47,6 @@
 				this.assert(false, message + ' expected #{this} to fail');
 			});
 		});
-
 		var tests = [];
 		tests.push({
 			name: 'properties',
@@ -72,6 +71,23 @@
 					"intKey": 3,
 					"stringKey": false
 				}}
+			]
+		}, {
+			name: 'combinations',
+			schema: {
+				"id": "any_v1",
+				"anyOf": [
+					{"type": "integer"},
+					{"type": "string"}
+				]
+			},
+			valid: [
+				{ data: 1},
+				{ data: "yo"}
+			],
+			invalid: [
+				{ data: [1,2,3]},
+				{ data: {aa:1}}
 			]
 		}, {
 			name: 'fruit',

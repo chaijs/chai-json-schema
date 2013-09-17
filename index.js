@@ -65,25 +65,53 @@
 		return '' + value;
 	}
 
+	function extractSchemaLabel(schema, max) {
+		max = typeof max === 'undefined' ? 40 : max;
+		var label = '';
+		if (schema.id) {
+			label = schema.id;
+		}
+		if (schema.title) {
+			label += (label ? ' (' + schema.title + ')' : schema.title);
+		}
+		if (!label && schema.description) {
+			label = valueStrim(schema.description, max);
+		}
+		if (!label) {
+			label = valueStrim(schema, max);
+		}
+		return label;
+	}
+
 	//print validation errors
 	var formatResult = function (error, data, schema, indent) {
-		var schemaValue = jsonpointer.get(schema, error.schemaPath);
+		var schemaValue;
 		var dataValue;
+		var schemaLabel;
 
 		//assemble error string
 		var ret = '';
 		ret += '\n' + indent + error.message;
+
+		schemaLabel = extractSchemaLabel(schema, 60);
+		if (schemaLabel) {
+			ret += '\n' + indent + '    schema: ' + schemaLabel;
+		}
+		if (error.schemaPath) {
+			schemaValue = jsonpointer.get(schema, error.schemaPath);
+			ret += '\n' + indent + '    rule:   ' + error.schemaPath + ' -> ' + valueStrim(schemaValue);
+		}
 		if (error.dataPath) {
 			dataValue = jsonpointer.get(data, error.dataPath);
-			ret += '\n' + indent + '    field:  ' + error.dataPath;
-			ret += '\n' + indent + '    value:  ' + utils.type(dataValue) + ' -> ' + valueStrim(dataValue);
+			ret += '\n' + indent + '    field:  ' + error.dataPath + ' -> ' + utils.type(dataValue) + ': ' + valueStrim(dataValue);
 		}
-		ret += '\n' + indent + '    schema: ' + schemaValue + ' -> ' + error.schemaPath;
 
 		//go deeper
-		/*forEachIh(error.subErrors, function (error) {
-		 ret += formatResult(error, data, schema, indent + indent);
-		 });*/
+		/*if (error.subErrors) {
+			forEachI(error.subErrors, function (error) {
+				ret += formatResult(error, data, schema, indent + indent);
+			});
+		}*/
 		return ret;
 	};
 
@@ -103,19 +131,8 @@
 		var pass = result.valid && (result.missing.length === 0);
 
 		//assemble readable message
-		var label;
-		if (schema.id) {
-			label = schema.id;
-		}
-		if (schema.title) {
-			label += (label ? ' (' + schema.title + ')' : schema.title);
-		}
-		if (!label && schema.description) {
-			label = valueStrim(schema.description, 30);
-		}
-		if (!label) {
-			label = valueStrim(schema, 30);
-		}
+		var label = extractSchemaLabel(schema, 30);
+
 		//assemble error report
 		var details = '';
 		if (!pass) {

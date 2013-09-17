@@ -2,15 +2,17 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-[Chai](http://chaijs.com/) plugin to validate values against IETF standardised [JSON Schema](http://json-schema.org/).
+[Chai](http://chaijs.com/) plugin to validate values against [JSON Schema v4](http://json-schema.org/). 
 
-Use [JSON Schema](http://json-schema.org/) [draft v4](http://json-schema.org/latest/json-schema-core.html) as implemented by [Tiny Validator tv4](https://github.com/geraintluff/tv4) to validate both simple values and complex objects with the rich collection of element [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
+Assert both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)). 
 
 ## Notes
 
-Chai-json-schema will fail also the assertion if a schema has a (`$ref`) referring to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema()` to preset schemas (see below):
+JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4).
 
-JSON Schema's main use is in validating JSON documents and API responses, but it is also a powerful way to describe and validate *any* JavaScript value or object.
+The assertion will fail if a schema use a `$ref` to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema(uri, schema)` to preset schemas.
+
+JSON Schema's main use-case is validating JSON documents and API responses, but it is also a powerful way to describe and validate *any* JavaScript value or object.
 
 ## Usage
 
@@ -53,8 +55,8 @@ Validate that the given javascript value conforms to the specified JSON Schema. 
     var fruitSchema = {
     	"title": "fresh fruit schema v1",
     	"type": "object",
+    	"required": ["skin", "colors", "taste"],
     	"properties": {
-    		"required": ["skin", "colors", "taste"],
     		"colors": {
     			"type": "array",
     			"minItems": 1,
@@ -163,12 +165,11 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 ## History
 
-* 1.0.5 - Dropped underscore dependency, various small improvements. 
+* 1.0.6 - Update tv4 dependency, improved error formatting.
+* 1.0.5 - Dropped underscore dependency, various internal tweaks. 
 * 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
 * 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
 * 1.0.2 - Improved reporting, made compatible with standard reporters.
-* 1.0.1 - Added basic error reporting.
-* 1.0.0 - First release.
 
 ## Build
 
