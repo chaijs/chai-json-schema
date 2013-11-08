@@ -3,7 +3,6 @@
 		// NodeJS
 		(function () {
 			var chai = require('chai');
-			chai.Assertion.includeStack = true;
 			test(chai, true);
 		}());
 	} else {
@@ -22,6 +21,7 @@
 			_ = window._;
 		}
 		chai.should();
+		chai.Assertion.includeStack = true;
 		var assert = chai.assert;
 
 		chai.use(function (chai, utils) {
@@ -150,7 +150,7 @@
 		});
 
 		// enable this to see the error reporting
-		describe('fail demo', function () {
+		describe('bulk', function () {
 
 			_.each(tests, function (testCase) {
 				describe(testCase.name + ' schema', function () {

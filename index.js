@@ -34,6 +34,7 @@
 	//export and use our own instance
 	chai.tv4 = tv4Module.freshApi();
 	chai.tv4.cyclicCheck = false;
+	chai.tv4.banUnknown = false;
 
 	function forEachI(arr, func, scope) {
 		for (var i = arr.length, ii = arr.length; i < ii; i++) {
@@ -126,7 +127,7 @@
 		assert.ok(schema, 'schema');
 
 		//single result
-		var result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck);
+		var result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
 		//assertion fails on missing schemas
 		var pass = result.valid && (result.missing.length === 0);
 

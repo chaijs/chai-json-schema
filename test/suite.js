@@ -3,7 +3,6 @@
 		// NodeJS
 		(function () {
 			var chai = require('chai');
-			chai.Assertion.includeStack = true;
 			test(chai, true);
 		}());
 	} else {
@@ -22,6 +21,8 @@
 			_ = window._;
 		}
 		chai.should();
+		chai.Assertion.includeStack = true;
+
 		var expect = chai.expect;
 		var assert = chai.assert;
 

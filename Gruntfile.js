@@ -4,6 +4,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-continue');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -36,6 +37,12 @@ module.exports = function (grunt) {
 					reporter: 'mocha-unfunk-reporter'
 				},
 				src: ['test/fail.js']
+			},
+			fail_spec : {
+				options: {
+					reporter: 'Spec'
+				},
+				src: ['test/*.js']
 			}
 		},
 		mocha: {
@@ -54,13 +61,17 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.registerTask('default', ['test']);
-	grunt.registerTask('build', ['jshint']);
-	grunt.registerTask('test', ['build', 'mochaTest:pass', 'mocha']);
+	grunt.registerTask('pass', ['mochaTest:pass', 'mocha', 'mochaTest:spec']);
+	grunt.registerTask('fail', ['mochaTest:fail', 'mochaTest:fail_spec']);
+
 	grunt.registerTask('run', ['build', 'mochaTest']);
 	grunt.registerTask('dev', ['build', 'mochaTest:spec']);
 
-	grunt.registerTask('edit_01', ['build', 'mochaTest']);
-	grunt.registerTask('edit_02', ['build', 'mocha']);
-	grunt.registerTask('edit_03', ['build', 'mochaTest:fail']);
+	grunt.registerTask('edit_01', ['build', 'mochaTest:pass']);
+	grunt.registerTask('edit_02', ['build', 'mochaTest:fail']);
+	grunt.registerTask('edit_03', ['build', 'mocha']);
+
+	grunt.registerTask('test', ['build', 'pass', 'continueOn', 'fail', 'continueOff']);
+	grunt.registerTask('build', ['jshint']);
+	grunt.registerTask('default', ['test']);
 };

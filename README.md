@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-[Chai](http://chaijs.com/) plugin to validate values against [JSON Schema v4](http://json-schema.org/). 
+[Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
 
 Assert both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)). 
 
@@ -105,15 +105,23 @@ There are other useful methods:
     
     chai.tv4.dropSchemas();
 
-For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
+For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api). 
 
-### Cyclical objects
+### Non-standard tv4 properties 
 
-There is a non-standard tv4 property that will be passed to the internal `tv4.validateResult()` call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
+**Cyclical objects**
+
+This will be passed to the internal `tv4` validate call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
 
     chai.tv4.cyclicCheck = true;
  
 This is slightly slower then regular validation so it is disabled by default. 
+
+**Ban unknown properties**
+
+    chai.tv4.banUnknown = true;
+
+Passed to the internal `tv4` validate call makes validation fail on unknown properties. Use this to make sure your objects do not contain undesirable data.
 
 ### Remote references
 
