@@ -1,6 +1,8 @@
 module.exports = function (grunt) {
 	'use strict';
 
+	/* jshint -W107 */
+
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -26,23 +28,11 @@ module.exports = function (grunt) {
 			pass: {
 				src: ['test/suite.js']
 			},
-			spec : {
-				options: {
-					reporter: 'spec'
-				},
-				src: ['test/*.js']
-			},
 			fail : {
 				options: {
 					reporter: 'mocha-unfunk-reporter'
 				},
 				src: ['test/fail.js']
-			},
-			fail_spec : {
-				options: {
-					reporter: 'Spec'
-				},
-				src: ['test/*.js']
 			}
 		},
 		mocha: {
@@ -55,14 +45,23 @@ module.exports = function (grunt) {
 				reporter: 'mocha-unfunk-reporter',
 				run: true
 			},
-			any: {
-				src: ['test/*.html']
+			pass: {
+				src: ['test/pass.html']
+			},
+			fail: {
+				src: ['test/fail.html']
+			},
+			fail_spec : {
+				options: {
+					reporter: 'spec'
+				},
+				src: ['test/fail.js']
 			}
 		}
 	});
 
-	grunt.registerTask('pass', ['mochaTest:pass', 'mocha', 'mochaTest:spec']);
-	grunt.registerTask('fail', ['mochaTest:fail', 'mochaTest:fail_spec']);
+	grunt.registerTask('pass', ['mochaTest:pass', 'mocha:pass']);
+	grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail', 'mocha:spec']);
 
 	grunt.registerTask('run', ['build', 'mochaTest']);
 	grunt.registerTask('dev', ['build', 'mochaTest:spec']);
