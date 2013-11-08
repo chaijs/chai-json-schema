@@ -151,7 +151,6 @@
 
 		// enable this to see the error reporting
 		describe('bulk', function () {
-
 			_.each(tests, function (testCase) {
 				describe(testCase.name + ' schema', function () {
 					it('assert.jsonSchema()', function () {

@@ -53,22 +53,22 @@ module.exports = function (grunt) {
 			},
 			fail_spec : {
 				options: {
-					reporter: 'spec'
+					reporter: 'Spec'
 				},
-				src: ['test/fail.js']
+				src: ['test/fail.html']
 			}
 		}
 	});
 
 	grunt.registerTask('pass', ['mochaTest:pass', 'mocha:pass']);
-	grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail', 'mocha:spec']);
+	grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail']);
 
 	grunt.registerTask('run', ['build', 'mochaTest']);
-	grunt.registerTask('dev', ['build', 'mochaTest:spec']);
+	grunt.registerTask('dev', ['build', 'continueOn','mocha:fail', 'continueOff', 'mocha:pass']);
 
 	grunt.registerTask('edit_01', ['build', 'mochaTest:pass']);
 	grunt.registerTask('edit_02', ['build', 'mochaTest:fail']);
-	grunt.registerTask('edit_03', ['build', 'mocha']);
+	grunt.registerTask('edit_03', ['build', 'mocha:fail']);
 
 	grunt.registerTask('test', ['build', 'pass', 'continueOn', 'fail', 'continueOff']);
 	grunt.registerTask('build', ['jshint']);

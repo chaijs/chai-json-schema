@@ -173,7 +173,7 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 ## History
 
-* 1.0.6 - Update tv4 dependency, improved error formatting.
+* 1.0.6 - Updated tv4 dependency, improved error formatting.
 * 1.0.5 - Dropped underscore dependency, various internal tweaks. 
 * 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
 * 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
