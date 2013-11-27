@@ -7,6 +7,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-continue');
+	grunt.loadNpmTasks('grunt-bump');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -19,6 +20,21 @@ module.exports = function (grunt) {
 			options: {
 				reporter: './node_modules/jshint-path-reporter',
 				jshintrc: '.jshintrc'
+			}
+		},
+		bump: {
+			options: {
+				files: ['package.json', 'bower.json'],
+				updateConfigs: [],
+				commit: false,
+				commitMessage: 'release v%VERSION%',
+				commitFiles: ['-a'],
+				createTag: true,
+				tagName: '%VERSION%',
+				tagMessage: 'release %VERSION%',
+				push: false,
+				pushTo: 'upstream',
+				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d' // options to use with '$ git describe'
 			}
 		},
 		mochaTest: {

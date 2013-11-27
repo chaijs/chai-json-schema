@@ -1,0 +1,16 @@
+{
+	"name": "chai-json-schema",
+	"version": "1.0.7",
+	"main": "index.js",
+	"ignore": [
+		"**/.*",
+		"Gruntfile.js",
+		"package.json",
+		"node_modules",
+		"test/"
+	],
+	"dependencies": {
+		"tv4": "~1.0.11",
+		"jsonpointer.js": "~0.3.0"
+	}
+}

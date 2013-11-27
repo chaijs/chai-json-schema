@@ -2,9 +2,11 @@
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
 
-[Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
+> [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
 
 Assert both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)). 
+
+For general help with json-schema see this excellent [guide](http://spacetelescope.github.io/understanding-json-schema/) and usable [reference](http://spacetelescope.github.io/understanding-json-schema/reference/index.html).
 
 ## Notes
 
@@ -30,6 +32,10 @@ Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](
 Install from npm:
 
     $ npm install chai-json-schema
+
+Install from bower:
+
+    $ bower install chai-json-schema
 
 Have chai use the chai-json-schema module:
 
@@ -173,7 +179,7 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 ## History
 
-* 1.0.6 - Updated tv4 dependency, improved error formatting.
+* 1.0.7 - Updated tv4 dependency, improved error formatting.
 * 1.0.5 - Dropped underscore dependency, various internal tweaks. 
 * 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
 * 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
