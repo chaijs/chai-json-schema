@@ -1,6 +1,6 @@
 {
 	"name": "chai-json-schema",
-	"version": "1.0.7",
+	"version": "1.0.9",
 	"main": "index.js",
 	"ignore": [
 		"**/.*",
