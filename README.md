@@ -20,22 +20,24 @@ JSON Schema's main use-case is validating JSON documents and API responses, but 
 
 ### browser-side
 
-Include chai-json-schema after [Chai](http://chaijs.com/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [jsonpointer](https://github.com/alexeykuzmin/jsonpointer.js/):
+Using globals:
+
+Include chai-json-schema after [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [Chai](http://chaijs.com/):
 
     <script src="jsonpointer.js"></script>
     <script src="tv4.js"></script>
     <script src="chai.js"></script>
     <script src="chai-json-schema.js"></script>
 
+Install from bower:
+
+    $ bower install chai-json-schema
+
 ### server-side
 
 Install from npm:
 
     $ npm install chai-json-schema
-
-Install from bower:
-
-    $ bower install chai-json-schema
 
 Have chai use the chai-json-schema module:
 
@@ -127,7 +129,7 @@ This is slightly slower then regular validation so it is disabled by default.
 
     chai.tv4.banUnknown = true;
 
-Passed to the internal `tv4` validate call makes validation fail on unknown properties. Use this to make sure your objects do not contain undesirable data.
+Passed to the internal `tv4` validate call makes validation fail on unknown schema properties. Use this to make sure your schema do not contain undesirable data.
 
 ### Remote references
 
@@ -179,6 +181,7 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 ## History
 
+* 1.0.9 - Published to bower.
 * 1.0.7 - Updated tv4 dependency, improved error formatting.
 * 1.0.5 - Dropped underscore dependency, various internal tweaks. 
 * 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
