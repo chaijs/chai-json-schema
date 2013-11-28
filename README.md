@@ -18,6 +18,18 @@ JSON Schema's main use-case is validating JSON documents and API responses, but 
 
 ## Usage
 
+
+### server-side
+
+Install from npm:
+
+    $ npm install chai-json-schema
+
+Have chai use the chai-json-schema module:
+
+    var chai = require('chai');
+    chai.use(require('chai-json-schema'));
+
 ### browser-side
 
 Using globals:
@@ -33,16 +45,7 @@ Install from bower:
 
     $ bower install chai-json-schema
 
-### server-side
-
-Install from npm:
-
-    $ npm install chai-json-schema
-
-Have chai use the chai-json-schema module:
-
-    var chai = require('chai');
-    chai.use(require('chai-json-schema'));
+The module supports CommonJS, AMD and browser globals. You might need to shim `tv4`'s global and make sure  `jsonpointer.js` can be required as `'jsonpointer'`.
 
 ## Assertions
 
@@ -181,6 +184,7 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 ## History
 
+* 1.0.10 - AMD loader support
 * 1.0.9 - Published to bower.
 * 1.0.7 - Updated tv4 dependency, improved error formatting.
 * 1.0.5 - Dropped underscore dependency, various internal tweaks. 
