@@ -42,9 +42,8 @@
     "tv4": "1.0.11"
   },
   "devDependencies": {
-    "grunt": "0.4.1",
+    "grunt": "~0.4.2",
     "grunt-cli": "~0.1",
-    "underscore": "~1.4",
     "chai": "~1.6.1",
     "mocha": "~1.11.0",
     "grunt-mocha": "~0.4.1",
@@ -52,8 +51,9 @@
     "jshint-path-reporter": "~0.1",
     "grunt-continue": "0.0.1",
     "grunt-mocha-test": "~0.7.0",
-    "mocha-unfunk-reporter": "~0.3.5",
-    "grunt-bump": "0.0.11"
+    "mocha-unfunk-reporter": "~0.3.7",
+    "grunt-bump": "0.0.11",
+    "requirejs": "~2.1.9"
   },
   "peerDependencies": {
     "chai": ">= 1.6.1 < 2"

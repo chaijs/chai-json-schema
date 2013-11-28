@@ -64,6 +64,12 @@ module.exports = function (grunt) {
 			pass: {
 				src: ['test/pass.html']
 			},
+			pass_amd: {
+				options: {
+					run: false
+				},
+				src: ['test/pass-amd.html']
+			},
 			fail: {
 				src: ['test/fail.html']
 			},
@@ -72,12 +78,18 @@ module.exports = function (grunt) {
 					reporter: 'Spec'
 				},
 				src: ['test/fail.html']
+			},
+			fail_amd : {
+				options: {
+					run: false
+				},
+				src: ['test/fail-amd.html']
 			}
 		}
 	});
 
-	grunt.registerTask('pass', ['mochaTest:pass', 'mocha:pass']);
-	grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail']);
+	grunt.registerTask('pass', ['mochaTest:pass', 'mocha:pass', 'mocha:pass_amd']);
+	grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail', 'mocha:fail_amd']);
 
 	grunt.registerTask('run', ['build', 'mochaTest']);
 	grunt.registerTask('dev', ['build', 'continueOn','mocha:fail', 'continueOff', 'mocha:pass']);
