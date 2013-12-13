@@ -213,3 +213,6 @@ See the `Gruntfile` for additional commands.
 Copyright (c) 2013 Bart van der Schoor
 
 Licensed under the MIT license.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Bartvds/chai-json-schema/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
