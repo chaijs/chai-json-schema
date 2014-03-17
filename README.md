@@ -23,12 +23,16 @@ JSON Schema's main use-case is validating JSON documents and API responses, but 
 
 Install from npm:
 
-    $ npm install chai-json-schema
+````bash
+$ npm install chai-json-schema
+````
 
 Have chai use the chai-json-schema module:
 
-    var chai = require('chai');
-    chai.use(require('chai-json-schema'));
+````js
+var chai = require('chai');
+chai.use(require('chai-json-schema'));
+````
 
 ### browser-side
 
@@ -36,14 +40,18 @@ Using globals:
 
 Include chai-json-schema after [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [Chai](http://chaijs.com/):
 
-    <script src="jsonpointer.js"></script>
-    <script src="tv4.js"></script>
-    <script src="chai.js"></script>
-    <script src="chai-json-schema.js"></script>
+````html
+<script src="jsonpointer.js"></script>
+<script src="tv4.js"></script>
+<script src="chai.js"></script>
+<script src="chai-json-schema.js"></script>
+````
 
 Install from bower:
 
-    $ bower install chai-json-schema
+````bash
+$ bower install chai-json-schema
+````
 
 The module supports CommonJS, AMD and browser globals. You might need to shim `tv4`'s global and make sure  `jsonpointer.js` can be required as `'jsonpointer'`.
 
@@ -53,68 +61,74 @@ The module supports CommonJS, AMD and browser globals. You might need to shim `t
 
 Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
 
-    var goodApple = {
-    	skin: "thin",
-    	colors: ["red", "green", "yellow"],
-    	taste: 10
-    };
-    var badApple = {
-    	colors: ["brown"],
-    	taste: 0,
-    	worms: 2
-    };
-    var fruitSchema = {
-    	"title": "fresh fruit schema v1",
-    	"type": "object",
-    	"required": ["skin", "colors", "taste"],
-    	"properties": {
-    		"colors": {
-    			"type": "array",
-    			"minItems": 1,
-    			"uniqueItems": true,
-    			"items": {
-    				"type": "string"
-    			}
-    		},
-    		"skin": {
-    			"type": "string"
-    		},
-    		"taste": {
-    			"type": "number",
-    			"minimum": 5
-    		}
-    	}
-    };
-    
-    //bdd style
-    expect(goodApple).to.be.jsonSchema(fruitSchema);
-    expect(badApple).to.not.be.jsonSchema(fruitSchema);
-    
-    goodApple.should.be.jsonSchema(fruitSchema);
-    badApple.should.not.be.jsonSchema(fruitSchema);
-    
-    //tdd style
-    assert.jsonSchema(goodApple, fruitSchema);
-    assert.notJsonSchema(badApple, fruitSchema);
+````js
+var goodApple = {
+	skin: "thin",
+	colors: ["red", "green", "yellow"],
+	taste: 10
+};
+var badApple = {
+	colors: ["brown"],
+	taste: 0,
+	worms: 2
+};
+var fruitSchema = {
+	"title": "fresh fruit schema v1",
+	"type": "object",
+	"required": ["skin", "colors", "taste"],
+	"properties": {
+		"colors": {
+			"type": "array",
+			"minItems": 1,
+			"uniqueItems": true,
+			"items": {
+				"type": "string"
+			}
+		},
+		"skin": {
+			"type": "string"
+		},
+		"taste": {
+			"type": "number",
+			"minimum": 5
+		}
+	}
+};
+
+//bdd style
+expect(goodApple).to.be.jsonSchema(fruitSchema);
+expect(badApple).to.not.be.jsonSchema(fruitSchema);
+
+goodApple.should.be.jsonSchema(fruitSchema);
+badApple.should.not.be.jsonSchema(fruitSchema);
+
+//tdd style
+assert.jsonSchema(goodApple, fruitSchema);
+assert.notJsonSchema(badApple, fruitSchema);
+````
 
 ## Additional API
 
 The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations: 
 
-    chai.tv4.addSchema(uri, schema);
+````js
+chai.tv4.addSchema(uri, schema);
+````
 
 There are other useful methods:
 
-    var list = chai.tv4.getMissingUris();
-    var list = chai.tv4.getMissingUris(/^https?:/);
+````js
+var list = chai.tv4.getMissingUris();
+var list = chai.tv4.getMissingUris(/^https?:/);
 
-    var list = chai.tv4.getSchemaUris();
-    var list = chai.tv4.getSchemaUris(/example.com/);
-    
-    var schema = chai.tv4.getSchema('http://example.com/item');
-    var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
-    
-    chai.tv4.dropSchemas();
+var list = chai.tv4.getSchemaUris();
+var list = chai.tv4.getSchemaUris(/example.com/);
+
+var schema = chai.tv4.getSchema('http://example.com/item');
+var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
+
+chai.tv4.dropSchemas();
+````
 
 For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api). 
 
@@ -124,13 +138,17 @@ For more API methods and info on the validator see the [tv4 documentation](https
 
 This will be passed to the internal `tv4` validate call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
 
-    chai.tv4.cyclicCheck = true;
- 
+````js
+chai.tv4.cyclicCheck = true;
+````
+
 This is slightly slower then regular validation so it is disabled by default. 
 
 **Ban unknown properties**
 
-    chai.tv4.banUnknown = true;
+````js
+chai.tv4.banUnknown = true;
+````
 
 Passed to the internal `tv4` validate call makes validation fail on unknown schema properties. Use this to make sure your schema do not contain undesirable data.
 
@@ -140,50 +158,53 @@ Due to the synchronous nature of assertions there will be no support for dynamic
 
 Use the asynchronous preparation feature of your favourite test runner to preload remote schemas:
 
-    // simplified example using a bdd-style async before(); 
-    // as used in mocha, jasmine etc.
+````js
+// simplified example using a bdd-style async before(); 
+// as used in mocha, jasmine etc.
 
-    before(function (done) {
-    
-        // iterate missing
-        var checkMissing = function (callback) {
-            var missing = chai.tv4.getMissingUris();
-            if (missing.length === 0) {
-                // all $ref's solved
-                callback();
-                return;
-            }
-            // load a schema using your favourite JSON loader
-            // (jQuery, request, SuperAgent etc)
-            var uri = missing.pop();
-            myFavoriteJsonLoader.load(uri, function (err, schema) {
-                if (err || !schema) {
-                    callback(err || 'no data loaded');
-                    return;
-                }
-                // add it
-                chai.tv4.addSchema(uri, schema);
-                // iterate
-                checkMissing(callback);
-            });
-        };
+before(function (done) {
 
-        // load first instance manually
+    // iterate missing
+    var checkMissing = function (callback) {
+        var missing = chai.tv4.getMissingUris();
+        if (missing.length === 0) {
+            // all $ref's solved
+            callback();
+            return;
+        }
+        // load a schema using your favourite JSON loader
+        // (jQuery, request, SuperAgent etc)
+        var uri = missing.pop();
         myFavoriteJsonLoader.load(uri, function (err, schema) {
             if (err || !schema) {
-                done(err || 'no data loaded');
+                callback(err || 'no data loaded');
                 return;
             }
             // add it
             chai.tv4.addSchema(uri, schema);
-
-            // start checking
-            checkMissing(done);
+            // iterate
+            checkMissing(callback);
         });
+    };
+
+    // load first instance manually
+    myFavoriteJsonLoader.load(uri, function (err, schema) {
+        if (err || !schema) {
+            done(err || 'no data loaded');
+            return;
+        }
+        // add it
+        chai.tv4.addSchema(uri, schema);
+
+        // start checking
+        checkMissing(done);
     });
+});
+````
 
 ## History
 
+* 1.1.0 - Dependency update
 * 1.0.10 - AMD loader support
 * 1.0.9 - Published to bower.
 * 1.0.7 - Updated tv4 dependency, improved error formatting.
@@ -196,15 +217,21 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 Install development dependencies in your git checkout:
 
-    $ npm install
+````bash
+$ npm install
+````
 
 You need the global [grunt](http://gruntjs.com) command:
 
-    $ npm install grunt-cli -g
+````bash
+$ npm install grunt-cli -g
+````
 
 Build and run tests:
 
-    $ grunt
+````bash
+$ grunt
+````
 
 See the `Gruntfile` for additional commands.
 
