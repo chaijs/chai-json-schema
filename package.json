@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "jsonpointer.js": "0.3.0",
-    "tv4": "~1.0.16"
+    "tv4": "~1.1.5"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
