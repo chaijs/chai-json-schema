@@ -10,7 +10,7 @@
 		"test/"
 	],
 	"dependencies": {
-		"tv4": "~1.0.16",
+		"tv4": "~1.1.5",
 		"jsonpointer.js": "~0.3.0"
 	}
 }
