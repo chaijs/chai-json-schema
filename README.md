@@ -204,6 +204,7 @@ before(function (done) {
 
 ## History
 
+* 1.2.0 - Update chai to 2.x
 * 1.1.0 - Dependency update
 * 1.0.10 - AMD loader support
 * 1.0.9 - Published to bower.
