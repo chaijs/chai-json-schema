@@ -50,7 +50,7 @@
     "grunt-contrib-jshint": "~0.11.x",
     "jshint-path-reporter": "~0.1",
     "grunt-continue": "0.0.1",
-    "grunt-mocha-test": "~0.10.0",
+    "grunt-mocha-test": "~0.12.x",
     "mocha-unfunk-reporter": "~0.4.0",
     "grunt-bump": "~0.3.x",
     "requirejs": "~2.1.11"
