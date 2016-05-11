@@ -59,7 +59,7 @@ The module supports CommonJS, AMD and browser globals. You might need to shim `t
 
 ### jsonSchema(value, schema)
 
-Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from a external datasource but could also be literals or object instances.
+Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from an external datasource but could also be literals or object instances.
 
 ````js
 var goodApple = {
