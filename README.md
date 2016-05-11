@@ -3,8 +3,8 @@
 [![npm:](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
 [![build:?](https://img.shields.io/travis/chaijs/chai-json-schema.svg?style=flat-square)](https://travis-ci.org/chaijs/chai-json-schema)
 [![dependencies:?](https://img.shields.io/npm/dm/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
-[![dependencies:?](https://img.shields.io/david/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai)
-[![devDependencies:?](https://img.shields.io/david/dev/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai)
+[![dependencies:?](https://img.shields.io/david/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
+[![devDependencies:?](https://img.shields.io/david/dev/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
 
 > [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
 
