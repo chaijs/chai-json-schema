@@ -1,6 +1,8 @@
 # chai-json-schema
 
-[![Build Status](https://secure.travis-ci.org/Bartvds/chai-json-schema.png?branch=master)](http://travis-ci.org/Bartvds/chai-json-schema) [![Dependency Status](https://gemnasium.com/Bartvds/chai-json-schema.png)](https://gemnasium.com/Bartvds/chai-json-schema) [![NPM version](https://badge.fury.io/js/chai-json-schema.png)](http://badge.fury.io/js/chai-json-schema)
+[![build:?](https://travis-ci.org/chaijs/chai-json-schema.svg?branch=master&style=flat-square)](https://travis-ci.org/chaijs/chai-json-schema)
+[![dependencies:?](https://img.shields.io/npm/dm/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
+[![npm:](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
 
 > [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
 
@@ -63,36 +65,36 @@ Validate that the given javascript value conforms to the specified JSON Schema. 
 
 ````js
 var goodApple = {
-	skin: "thin",
-	colors: ["red", "green", "yellow"],
-	taste: 10
+  skin: 'thin',
+  colors: ['red', 'green', 'yellow'],
+  taste: 10
 };
 var badApple = {
-	colors: ["brown"],
-	taste: 0,
-	worms: 2
+  colors: ['brown'],
+  taste: 0,
+  worms: 2
 };
 var fruitSchema = {
-	"title": "fresh fruit schema v1",
-	"type": "object",
-	"required": ["skin", "colors", "taste"],
-	"properties": {
-		"colors": {
-			"type": "array",
-			"minItems": 1,
-			"uniqueItems": true,
-			"items": {
-				"type": "string"
-			}
-		},
-		"skin": {
-			"type": "string"
-		},
-		"taste": {
-			"type": "number",
-			"minimum": 5
-		}
-	}
+  title: 'fresh fruit schema v1',
+  type: 'object',
+  required: ['skin', 'colors', 'taste'],
+  properties: {
+    colors: {
+      type: 'array',
+      minItems: 1,
+      uniqueItems: true,
+      items: {
+        type: 'string'
+      }
+    },
+    skin: {
+      type: 'string'
+    },
+    taste: {
+      type: 'number',
+      minimum: 5
+    }
+  }
 };
 
 //bdd style
@@ -164,41 +166,41 @@ Use the asynchronous preparation feature of your favourite test runner to preloa
 
 before(function (done) {
 
-    // iterate missing
-    var checkMissing = function (callback) {
-        var missing = chai.tv4.getMissingUris();
-        if (missing.length === 0) {
-            // all $ref's solved
-            callback();
-            return;
-        }
-        // load a schema using your favourite JSON loader
-        // (jQuery, request, SuperAgent etc)
-        var uri = missing.pop();
-        myFavoriteJsonLoader.load(uri, function (err, schema) {
-            if (err || !schema) {
-                callback(err || 'no data loaded');
-                return;
-            }
-            // add it
-            chai.tv4.addSchema(uri, schema);
-            // iterate
-            checkMissing(callback);
-        });
-    };
-
-    // load first instance manually
+  // iterate missing
+  var checkMissing = function (callback) {
+    var missing = chai.tv4.getMissingUris();
+    if (missing.length === 0) {
+      // all $ref's solved
+      callback();
+      return;
+    }
+    // load a schema using your favourite JSON loader
+    // (jQuery, request, SuperAgent etc)
+    var uri = missing.pop();
     myFavoriteJsonLoader.load(uri, function (err, schema) {
-        if (err || !schema) {
-            done(err || 'no data loaded');
-            return;
-        }
-        // add it
-        chai.tv4.addSchema(uri, schema);
-
-        // start checking
-        checkMissing(done);
+      if (err || !schema) {
+        callback(err || 'no data loaded');
+        return;
+      }
+      // add it
+      chai.tv4.addSchema(uri, schema);
+      // iterate
+      checkMissing(callback);
     });
+  };
+
+  // load first instance manually
+  myFavoriteJsonLoader.load(uri, function (err, schema) {
+    if (err || !schema) {
+      done(err || 'no data loaded');
+      return;
+    }
+    // add it
+    chai.tv4.addSchema(uri, schema);
+
+    // start checking
+    checkMissing(done);
+  });
 });
 ````
 
