@@ -159,7 +159,7 @@
 					describe(testCase.name + ' schema', function () {
 						it('assert.jsonSchema()', function () {
 							testCase.invalid.forEach(function (obj, i) {
-								assert.jsonSchema(obj.data, testCase.schema, '#' + i);
+								assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
 							});
 						});
 					});
