@@ -92,13 +92,13 @@ module.exports = function (grunt) {
   grunt.registerTask('fail', ['mochaTest:fail', 'mocha:fail', 'mocha:fail_amd']);
 
   grunt.registerTask('run', ['build', 'mochaTest']);
-  grunt.registerTask('dev', ['build', 'continueOn','mocha:fail', 'continueOff', 'mocha:pass']);
+  grunt.registerTask('dev', ['build', 'continue:on', 'mocha:fail', 'continue:off', 'mocha:pass']);
 
   grunt.registerTask('edit_01', ['build', 'mochaTest:pass']);
   grunt.registerTask('edit_02', ['build', 'mochaTest:fail']);
   grunt.registerTask('edit_03', ['build', 'mocha:fail']);
 
-  grunt.registerTask('test', ['build', 'pass', 'continueOn', 'fail', 'continueOff']);
+  grunt.registerTask('test', ['build', 'pass', 'continue:on', 'fail', 'continue:off']);
   grunt.registerTask('build', ['jshint']);
   grunt.registerTask('default', ['test']);
 };
