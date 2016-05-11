@@ -4,20 +4,20 @@
   "description": "Chai plugin for JSON Schema v4",
   "author": {
     "name": "Bart van der Schoor",
-    "url": "https://github.com/Bartvds"
+    "url": "https://github.com/chaijs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Bartvds/chai-json-schema.git"
+    "url": "https://github.com/chaijs/chai-json-schema.git"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/Bartvds/chai-json-schema/blob/master/LICENSE-MIT"
+      "url": "https://github.com/chaijs/chai-json-schema/blob/master/LICENSE-MIT"
     }
   ],
   "bugs": {
-    "url": "https://github.com/Bartvds/chai-json-schema/issues"
+    "url": "https://github.com/chaijs/chai-json-schema/issues"
   },
   "keywords": [
     "chai",
