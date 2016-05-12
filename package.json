@@ -6,35 +6,30 @@
     "name": "Bart van der Schoor",
     "url": "https://github.com/chaijs"
   },
+  "keywords": [
+    "array",
+    "assert",
+    "assertion",
+    "browser",
+    "chai",
+    "chai-plugin",
+    "json",
+    "json-schema",
+    "objects",
+    "schema",
+    "test",
+    "testing"
+  ],
+  "homepage": "http://chaijs.com",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/chaijs/chai-json-schema.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/chaijs/chai-json-schema/blob/master/LICENSE-MIT"
-    }
-  ],
   "bugs": {
     "url": "https://github.com/chaijs/chai-json-schema/issues"
   },
-  "keywords": [
-    "chai",
-    "chai-plugin",
-    "browser",
-    "objects",
-    "array",
-    "test",
-    "assertion",
-    "assert",
-    "testing",
-    "json",
-    "schema",
-    "json-schema"
-  ],
-  "main": "index.js",
-  "readmeFilename": "README.md",
+  "main": "./index",
   "engines": {
     "node": ">= 0.10"
   },
