@@ -22,7 +22,7 @@
       chai.use(plugin);
     }
     chai.should();
-    chai.Assertion.includeStack = true;
+    chai.config.includeStack = true;
 
     var assert = chai.assert;
 
