@@ -40,9 +40,6 @@
             this.assert(
               err instanceof chai.AssertionError
               , message + ' expected #{this} to fail, but it threw ' + inspect(err));
-            /*this.assert(
-             err.message === message
-             , 'expected #{this} to fail with ' + inspect(message) + ', but got ' + inspect(err.message));*/
             return;
           }
 
