@@ -40,97 +40,93 @@
             this.assert(
               err instanceof chai.AssertionError
               , message + ' expected #{this} to fail, but it threw ' + inspect(err));
-            /*this.assert(
-             err.message === message
-             , 'expected #{this} to fail with ' + inspect(message) + ', but got ' + inspect(err.message));*/
             return;
           }
 
           this.assert(false, message + ' expected #{this} to fail');
         });
       });
-      var tests = [];
-      tests.push({
+      var tests = [{
         name: 'properties',
         schema: {
-          "properties": {
-            "intKey": {
-              "type": "integer"
+          properties: {
+            intKey: {
+              type: 'integer'
             },
-            "stringKey": {
-              "type": "string"
+            stringKey: {
+              type: 'string'
             }
           }
         },
-        valid: [
-          { data: {
-            "intKey": 1,
-            "stringKey": "one"
-          }}
-        ],
-        invalid: [
-          {data: {
-            "intKey": 3,
-            "stringKey": false
-          }}
-        ]
+        valid: [{
+          data: {
+            intKey: 1,
+            stringKey: 'one'
+          }
+        }],
+        invalid: [{
+          data: {
+            intKey: 3,
+            stringKey: false
+          }
+        }]
       }, {
         name: 'combinations',
         schema: {
-          "id": "any_v1",
-          "anyOf": [
-            {"type": "integer"},
-            {"type": "string"}
+          id: 'any_v1',
+          anyOf: [
+            { type: 'integer' },
+            { type: 'string' }
           ]
         },
         valid: [
-          { data: 1},
-          { data: "yo"}
+          { data: 1 },
+          { data: 'yo' }
         ],
         invalid: [
-          { data: [1, 2, 3]},
-          { data: {aa: 1}}
+          { data: [1, 2, 3] },
+          { data: { aa: 1 } }
         ]
       }, {
         name: 'fruit',
         schema: {
-          "id": "fruit_v1",
-          "description": "fresh fruit schema v1",
-          "type": "object",
-          "properties": {
-            "required": ["skin", "colors", "taste"],
-            "colors": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string"
+          id: 'fruit_v1',
+          description: 'fresh fruit schema v1',
+          type: 'object',
+          properties: {
+            required: ['skin', 'colors', 'taste'],
+            colors: {
+              type: 'array',
+              minItems: 1,
+              uniqueItems: true,
+              items: {
+                type: 'string'
               }
             },
-            "skin": {
-              "type": "string"
+            skin: {
+              type: 'string'
             },
-            "taste": {
-              "type": "number",
-              "minimum": 5
+            taste: {
+              type: 'number',
+              minimum: 5
             }
           }
         },
-        valid: [
-          { data: {
-            skin: "thin",
-            colors: ["red", "green", "yellow"],
+        valid: [{
+          data: {
+            skin: 'thin',
+            colors: ['red', 'green', 'yellow'],
             taste: 10
-          }}
-        ],
-        invalid: [
-          {data: {
-            colors: ["brown"],
+          }
+        }],
+        invalid: [{
+          data: {
+            colors: ['brown'],
             taste: 0,
             worms: 2
-          }}
-        ]
-      });
+          }
+        }]
+      }];
 
       it('has tests', function () {
         assert.isArray(tests, 'tests');

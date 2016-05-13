@@ -59,98 +59,99 @@
       });
 
       describe('assertions', function () {
-        var tests = [];
-        tests.push({
+        var tests = [{
           name: 'properties',
           schema: {
-            "properties": {
-              "intKey": {
-                "type": "integer"
+            properties: {
+              intKey: {
+                type: 'integer'
               },
-              "stringKey": {
-                "type": "string"
+              stringKey: {
+                type: 'string'
               }
             }
           },
-          valid: [
-            { data: {
-              "intKey": 1,
-              "stringKey": "one"
-            }}
-          ],
-          invalid: [
-            {data: {
-              "intKey": 3,
-              "stringKey": false
-            }}
-          ]
-        });
-        tests.push({
+          valid: [{
+            data: {
+              intKey: 1,
+              stringKey: 'one'
+            }
+          }],
+          invalid: [{
+            data: {
+              intKey: 3,
+              stringKey: false
+            }
+          }]
+        }, {
           name: 'fruit',
           schema: {
-            "id": "fruit_v1",
-            "description": "fresh fruit schema v1",
-            "type": "object",
-            "required": ["skin", "colors", "taste"],
-            "properties": {
-              "colors": {
-                "type": "array",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": {
-                  "type": "string"
+            id: 'fruit_v1',
+            description: 'fresh fruit schema v1',
+            type: 'object',
+            required: ['skin', 'colors', 'taste'],
+            properties: {
+              colors: {
+                type: 'array',
+                minItems: 1,
+                uniqueItems: true,
+                items: {
+                  type: 'string'
                 }
               },
-              "skin": {
-                "type": "string"
+              skin: {
+                type: 'string'
               },
-              "taste": {
-                "type": "number",
-                "minimum": 5
+              taste: {
+                type: 'number',
+                minimum: 5
               },
-              "worms": {
-                "type": "number",
-                "maximum": 1
+              worms: {
+                type: 'number',
+                maximum: 1
               }
             }
           },
-          valid: [
-            { data: {
-              skin: "thin",
-              colors: ["red", "green", "yellow"],
+          valid: [{
+            data: {
+              skin: 'thin',
+              colors: ['red', 'green', 'yellow'],
               taste: 10
-            }},
-            { data: {
-              skin: "thin",
-              colors: ["yellow"],
+            }
+          }, {
+            data: {
+              skin: 'thin',
+              colors: ['yellow'],
               taste: 5,
               worms: 1
-            }}
-          ],
-          invalid: [
-            { data: {
-              skin: "thin",
-              colors: ["yellow"],
+            }
+          }],
+          invalid: [{
+            data: {
+              skin: 'thin',
+              colors: ['yellow'],
               taste: 0
-            }},
-            { data: {
-              skin: "thin",
+            }
+          }, {
+            data: {
+              skin: 'thin',
               colors: [1, 2, 3],
               taste: 5
-            }},
-            { data: {
+            }
+          }, {
+            data: {
               skin: 321,
-              colors: ["yellow"],
+              colors: ['yellow'],
               taste: 5
-            }},
-            { data: {
-              skin: "thin",
-              colors: ["yellow"],
+            }
+          }, { data: {
+              skin: 'thin',
+              colors: ['yellow'],
               taste: 5,
               worms: 3
-            }}
-          ]
-        });
+            }
+          }]
+        }];
         describe('check test data', function () {
           it('has tests', function () {
             assert.isArray(tests, 'tests');
