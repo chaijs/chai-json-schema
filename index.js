@@ -30,11 +30,11 @@
       var assert = chai.assert;
       var flag = utils.flag;
 
-      //check if we have all dependencies
+      // check if we have all dependencies
       assert.ok(tv4Module, 'tv4 dependency');
       assert.ok(jsonpointer, 'jsonpointer dependency');
 
-      //export and use our own instance
+      // export and use our own instance
       chai.tv4 = tv4Module.freshApi();
       chai.tv4.cyclicCheck = false;
       chai.tv4.banUnknown = false;
@@ -45,7 +45,7 @@
         }
       }
 
-      //make a compact debug string from any object
+      // make a compact debug string from any object
       function valueStrim(value, cutoff) {
         var strimLimit = typeof cutoff === 'undefined' ? 60 : cutoff;
 
@@ -87,13 +87,13 @@
         return label;
       }
 
-      //print validation errors
+      // print validation errors
       var formatResult = function (error, data, schema, indent) {
         var schemaValue;
         var dataValue;
         var schemaLabel;
 
-        //assemble error string
+        // assemble error string
         var ret = '';
         ret += '\n' + indent + error.message;
 
@@ -110,7 +110,8 @@
           ret += '\n' + indent + '    field:  ' + error.dataPath + ' -> ' + utils.type(dataValue) + ': ' + valueStrim(dataValue);
         }
 
-        //go deeper
+        // sub errors are not implemented (yet?)
+        // https://github.com/chaijs/chai-json-schema/issues/3
         /*if (error.subErrors) {
          forEachI(error.subErrors, function (error) {
          ret += formatResult(error, data, schema, indent + indent);
@@ -119,25 +120,25 @@
         return ret;
       };
 
-      //add the method
+      // add the method
       chai.Assertion.addMethod('jsonSchema', function (schema, msg) {
         if (msg) {
           flag(this, 'message', msg);
         }
         var obj = this._obj;
 
-        //note: don't assert.ok(obj) -> zero or empty string is a valid and describable json-value
+        // note: don't assert.ok(obj) -> zero or empty string is a valid and describable json-value
         assert.ok(schema, 'schema');
 
-        //single result
+        // single result
         var result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
-        //assertion fails on missing schemas
+        // assertion fails on missing schemas
         var pass = result.valid && (result.missing.length === 0);
 
-        //assemble readable message
+        // assemble readable message
         var label = extractSchemaLabel(schema, 30);
 
-        //assemble error report
+        // assemble error report
         var details = '';
         if (!pass) {
           var indent = '      ';
@@ -162,7 +163,7 @@
             });
           }
         }
-        //pass hardcoded strings and no actual value (mocha forces nasty string diffs)
+        // pass hardcoded strings and no actual value (mocha forces nasty string diffs)
         this.assert(
           pass
           , 'expected value to match json-schema \'' + label + '\'' + details
@@ -171,7 +172,7 @@
         );
       });
 
-      //export tdd style
+      // export tdd style
       assert.jsonSchema = function (val, exp, msg) {
         new chai.Assertion(val, msg).to.be.jsonSchema(exp);
       };
