@@ -1,4 +1,14 @@
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
+- '0.11'
+- '0.10'
+deploy:
+  provider: npm
+  email:
+    secure: HNGHhrTnocKpiKd8IEQLjToT/XfaDHdKZYkWK2wMO28COVyU3vIXNvR0/WQorLB/vzawEJJab2qe1b45jSc0/JO4HrZVAQMIxUcks7ZGq5rJ7f0diDBSZJWX9NVAZUYWnW9252wAaPm/dAwQhi7aIbq4y86NeYx3jr+fgSgrm8Q=
+  api_key:
+    secure: bQdR2wY8eLRd4g/7v7wgGy84qiNjght8EdbvL+5YJ7KnEQ+6PRLU+z14h/nYNMCRd531CLNfbeTIqKHmFt3WgA5RGfi7t1bbiK4x9rXOb2pn9w03X4oWZZhctYezQpfUnDsWgon66LVMYk6DR8KLUQdmivdXY4JTc0CyD/Z9xW8=
+  on:
+    tags: true
+    repo: chaijs/chai-json-schema
+    all_branches: true
