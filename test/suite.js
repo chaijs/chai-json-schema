@@ -79,7 +79,7 @@
           }],
           invalid: [{
             data: {
-              intKey: 3,
+              intKey: 'three',
               stringKey: false
             }
           }]
@@ -130,24 +130,25 @@
             data: {
               skin: 'thin',
               colors: ['yellow'],
-              taste: 0
+              taste: 0,
+              worms: 2
             }
           }, {
             data: {
               skin: 'thin',
               colors: [1, 2, 3],
-              taste: 5
+              taste: 4
             }
           }, {
             data: {
               skin: 321,
-              colors: ['yellow'],
+              colors: ['yellow', 'yellow'],
               taste: 5
             }
           }, { data: {
               skin: 'thin',
               colors: ['yellow'],
-              taste: 5,
+              taste: 4,
               worms: 3
             }
           }]
@@ -214,6 +215,34 @@
                   }).to.fail('#' + i);
                 });
               });
+              it('should/expect output single negation', function () {
+                testCase.invalid.forEach(function (obj, i) {
+                  expect(function () {
+                    expect(obj.data).to.be.jsonSchema(testCase.schema, 'expect() #' + i);
+                  }).to.throw(/(.+?\n){4}/);
+                  expect(function () {
+                    obj.data.should.be.jsonSchema(testCase.schema, 'should #' + i);
+                  }).to.throw(/(.+?\n){4}/);
+                });
+              });
+              describe('should/expect output multiple negation', function () {
+                before(function () {
+                  chai.tv4.multiple = true;
+                });
+                after(function () {
+                  chai.tv4.multiple = false;
+                });
+                it('should/expect multiple negation', function () {
+                  testCase.invalid.forEach(function (obj, i) {
+                    expect(function () {
+                      expect(obj.data).to.be.jsonSchema(testCase.schema, 'expect() #' + i);
+                    }).to.throw(/(.+?\n){5,}/);
+                    expect(function () {
+                      obj.data.should.be.jsonSchema(testCase.schema, 'should #' + i);
+                    }).to.throw(/(.+?\n){5,}/);
+                  });
+                });
+              });
             });
           });
         });
@@ -250,6 +279,28 @@
                   expect(function () {
                     assert.notJsonSchema(obj.data, testCase.schema, '#' + i);
                   }).to.fail('#' + i);
+                });
+              });
+              it('should/expect output single negation', function () {
+                testCase.invalid.forEach(function (obj, i) {
+                  expect(function () {
+                    assert.jsonSchema(obj.data, testCase.schema, '#' + i);
+                  }).to.throw(/(.+?\n){4}/);
+                });
+              });
+              describe('should/expect output multiple negation', function () {
+                before(function () {
+                  chai.tv4.multiple = true;
+                });
+                after(function () {
+                  chai.tv4.multiple = false;
+                });
+                it('should/expect multiple negation', function () {
+                  testCase.invalid.forEach(function (obj, i) {
+                    expect(function () {
+                      assert.jsonSchema(obj.data, testCase.schema, '#' + i);
+                    }).to.throw(/(.+?\n){5,}/);
+                  });
                 });
               });
             });

@@ -133,7 +133,7 @@
 
         // single result
         var result = null;
-        if(chai.tv4.multiple) {
+        if (chai.tv4.multiple) {
           result = chai.tv4.validateMultiple(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
         } else {
           result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
