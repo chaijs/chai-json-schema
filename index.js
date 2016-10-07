@@ -38,9 +38,10 @@
       chai.tv4 = tv4Module.freshApi();
       chai.tv4.cyclicCheck = false;
       chai.tv4.banUnknown = false;
+      chai.tv4.multiple = false;
 
       function forEachI(arr, func, scope) {
-        for (var i = arr.length, ii = arr.length; i < ii; i++) {
+        for (var i = 0, ii = arr.length; i < ii; i++) {
           func.call(scope, arr[i], i, arr);
         }
       }
@@ -131,7 +132,12 @@
         assert.ok(schema, 'schema');
 
         // single result
-        var result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
+        var result = null;
+        if (chai.tv4.multiple) {
+          result = chai.tv4.validateMultiple(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
+        } else {
+          result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
+        }
         // assertion fails on missing schemas
         var pass = result.valid && (result.missing.length === 0);
 

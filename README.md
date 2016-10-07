@@ -156,6 +156,15 @@ chai.tv4.banUnknown = true;
 
 Passed to the internal `tv4` validate call makes validation fail on unknown schema properties. Use this to make sure your schema do not contain undesirable data.
 
+**Validate multiple errors**
+
+````js
+chai.tv4.multiple = true;
+````
+
+Call `tv4.validateMultiple` for validation instead of `tv4.validateResult`. Use this if you want see all validation errors.
+
+
 ### Remote references
 
 Due to the synchronous nature of assertions there will be no support for dynamically loading remote references during validation.
