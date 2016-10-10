@@ -6,9 +6,9 @@
 [![dependencies:?](https://img.shields.io/david/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
 [![devDependencies:?](https://img.shields.io/david/dev/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
 
-> [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/). 
+> [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/).
 
-Assert both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)). 
+Assert both simple values and complex objects with the rich collection of [validation terms](http://json-schema.org/latest/json-schema-validation.html) ([examples](http://json-schema.org/examples.html)).
 
 For general help with json-schema see this excellent [guide](http://spacetelescope.github.io/understanding-json-schema/) and usable [reference](http://spacetelescope.github.io/understanding-json-schema/reference/index.html).
 
@@ -113,7 +113,7 @@ assert.notJsonSchema(badApple, fruitSchema);
 
 ## Additional API
 
-The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations: 
+The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations:
 
 ````js
 chai.tv4.addSchema(uri, schema);
@@ -134,9 +134,9 @@ var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
 chai.tv4.dropSchemas();
 ````
 
-For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api). 
+For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
 
-### Non-standard tv4 properties 
+### Non-standard tv4 properties
 
 **Cyclical objects**
 
@@ -146,7 +146,7 @@ This will be passed to the internal `tv4` validate call to enable [support for c
 chai.tv4.cyclicCheck = true;
 ````
 
-This is slightly slower then regular validation so it is disabled by default. 
+This is slightly slower then regular validation so it is disabled by default.
 
 **Ban unknown properties**
 
@@ -172,7 +172,7 @@ Due to the synchronous nature of assertions there will be no support for dynamic
 Use the asynchronous preparation feature of your favourite test runner to preload remote schemas:
 
 ````js
-// simplified example using a bdd-style async before(); 
+// simplified example using a bdd-style async before();
 // as used in mocha, jasmine etc.
 
 before(function (done) {
@@ -216,16 +216,7 @@ before(function (done) {
 ````
 
 ## History
-
-* 1.2.0 - Dependency update - Chai 2.x
-* 1.1.0 - Dependency update
-* 1.0.10 - AMD loader support
-* 1.0.9 - Published to bower.
-* 1.0.7 - Updated tv4 dependency, improved error formatting.
-* 1.0.5 - Dropped underscore dependency, various internal tweaks. 
-* 1.0.4 - Use and expose separated tv4 instance. Improved readme examples.
-* 1.0.3 - Published to [chaijs.com/plugins](http://chaijs.com/plugins)
-* 1.0.2 - Improved reporting, made compatible with standard reporters.
+See [Releases](https://github.com/chaijs/chai-json-schema/releases). 
 
 ## Build
 
@@ -256,4 +247,3 @@ Copyright (c) 2013 Bart van der Schoor
 Licensed under the MIT license.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Bartvds/chai-json-schema/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
