@@ -5,6 +5,8 @@
 .jshintrc
 bower.json
 Gruntfile.js
+MAINTAINERS
+PULL_REQUEST_TEMPLATE.md
 
 /.idea
 /node_modules
