@@ -55,6 +55,6 @@
     "requirejs": "^2.2.0"
   },
   "peerDependencies": {
-    "chai": ">= 1.6.1 < 4"
+    "chai": ">= 1.6.1 < 5"
   }
 }
