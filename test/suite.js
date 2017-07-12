@@ -152,6 +152,39 @@
               worms: 3
             }
           }]
+        }, {
+          name: 'schema references',
+          schema: {
+            id: 'references_v1',
+            description: 'Testing schema references',
+            type: 'object',
+            definitions: {
+              id: 'answers',
+              type: 'string'
+            },
+            properties: {
+              colors: {
+                type: 'array',
+                items: {
+                  $ref: '#/definitions/answers'
+                }
+              }
+            }
+          },
+          valid: [{
+            data: {
+              colors: ['red', 'green', 'yellow']
+            }
+          }, {
+            data: {
+              colors: ['yellow']
+            }
+          }],
+          invalid: [{
+            data: {
+              colors: true,
+            }
+          }]
         }];
         describe('check test data', function () {
           it('has tests', function () {
