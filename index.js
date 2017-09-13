@@ -6,25 +6,28 @@
     // NodeJS
     module.exports = getPayload(
       require('tv4'),
+	    require('tv4-formats'),
       require('jsonpointer.js')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define('chai-json-schema', [
       'tv4',
+      'tv4-formats',
       'jsonpointer'
-    ], function (tv4, jsonpointer) {
-      return getPayload(tv4, jsonpointer);
+    ], function (tv4, tv4_formats, jsonpointer) {
+      return getPayload(tv4, tv4_formats, jsonpointer);
     });
   } else {
     // Other environment (usually <script> tag): plug in to global chai instance directly.
     chai.use(getPayload(
       window.tv4,
+      window.tv4_formats,
       window.jsonpointer
     ));
   }
 
-  function getPayload(tv4Module, jsonpointer) {
+  function getPayload(tv4Module, tv4FormatsModule, jsonpointer) {
     // return the chai plugin (a function)
     return function (chai, utils) {
       var assert = chai.assert;
@@ -32,6 +35,7 @@
 
       // check if we have all dependencies
       assert.ok(tv4Module, 'tv4 dependency');
+      assert.ok(tv4FormatsModule, 'tv4-formats dependency');
       assert.ok(jsonpointer, 'jsonpointer dependency');
 
       // export and use our own instance
@@ -39,6 +43,7 @@
       chai.tv4.cyclicCheck = false;
       chai.tv4.banUnknown = false;
       chai.tv4.multiple = false;
+	    chai.tv4.addFormat(tv4FormatsModule);
 
       function forEachI(arr, func, scope) {
         for (var i = 0, ii = arr.length; i < ii; i++) {
