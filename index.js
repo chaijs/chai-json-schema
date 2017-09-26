@@ -6,14 +6,14 @@
     // NodeJS
     module.exports = getPayload(
       require('tv4'),
-	    require('tv4-formats'),
-      require('jsonpointer.js')
+      require('tv4-basic-formats'),
+      require('jsonpointer.js')	        
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define('chai-json-schema', [
       'tv4',
-      'tv4-formats',
+      'tv4-basic-formats',
       'jsonpointer'
     ], function (tv4, tv4_formats, jsonpointer) {
       return getPayload(tv4, tv4_formats, jsonpointer);
@@ -21,9 +21,9 @@
   } else {
     // Other environment (usually <script> tag): plug in to global chai instance directly.
     chai.use(getPayload(
-      window.tv4,
-      window.tv4_formats,
-      window.jsonpointer
+      window.tv4, 
+      window.tv4BasicFormats,     
+      window.jsonpointer      
     ));
   }
 
@@ -35,7 +35,7 @@
 
       // check if we have all dependencies
       assert.ok(tv4Module, 'tv4 dependency');
-      assert.ok(tv4FormatsModule, 'tv4-formats dependency');
+      assert.ok(tv4FormatsModule, 'tv4-basic-formats dependency');
       assert.ok(jsonpointer, 'jsonpointer dependency');
 
       // export and use our own instance

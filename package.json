@@ -53,7 +53,7 @@
     "mocha": "^3.1.2",
     "mocha-unfunk-reporter": "^0.4.0",
     "requirejs": "^2.2.0",
-    "tv4-formats": "^3.0.0"
+    "tv4-basic-formats": "^1.0.2"
   },
   "peerDependencies": {
     "chai": ">= 1.6.1 < 5"
