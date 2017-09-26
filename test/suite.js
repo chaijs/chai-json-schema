@@ -152,6 +152,58 @@
               worms: 3
             }
           }]
+        }, {
+          name: 'Validation with "format"',
+          schema: {
+            id: 'tv4-formats',
+            description: 'TV4 properties formats v1',
+            properties: {
+              dateField: {
+                type: 'string',
+                format: 'date'
+              },
+              dateTimeField: {
+                type: 'string',
+                format: 'date-time'
+              },
+              emailField: {
+                type: 'string',
+                format: 'email'
+              },
+              uriField: {
+                type: 'string',
+                format: 'uri'
+              },
+              urlField: {
+                type: 'string',
+                format: 'url'
+              },
+              creditCardNumberField: {
+                type: 'string',
+                format: 'credit-card-number'
+              }
+            }
+          },
+          valid: [{
+            data: {
+              dateField: '1987-08-30',
+              dateTimeField: '2014-02-11T15:19:59+00:00',
+              emailField: 'ivan.krechetov+special-tag@gmail.com',
+              uriField: 'http://krechetov.net/',
+              urlField: 'https://ikr.su/',
+              creditCardNumberField: '4242424242424242'
+            }
+          }],
+          invalid: [{
+            data: {
+              dateField: 'BOO!',
+              dateTimeField: 'BOO!',
+              emailField: '#not_an_email',
+              uriField: '+41 43 000 00 00 Grüezi',
+              urlField: '#clearly# :not: a URL',
+              creditCardNumberField: '1000000000000000'
+            }
+          }]
         }];
         describe('check test data', function () {
           it('has tests', function () {
