@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "grunt": "^1.0.1",
+    "grunt": "1.0.1",
     "grunt-bump": "^0.8.0",
     "grunt-cli": "^1.2.0",
     "grunt-continue": "^0.1.0",
