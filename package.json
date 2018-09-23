@@ -46,7 +46,7 @@
     "grunt-bump": "^0.8.0",
     "grunt-cli": "^1.2.0",
     "grunt-continue": "^0.1.0",
-    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-jshint": "^2.0.0",
     "grunt-mocha": "^1.0.2",
     "grunt-mocha-test": "^0.13.2",
     "jshint-path-reporter": "^0.1.3",
