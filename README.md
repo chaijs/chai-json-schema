@@ -16,9 +16,14 @@ For general help with json-schema see this excellent [guide](http://spacetelesco
 
 JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4).
 
+It seems that tv4 is not actively developed anymore, nor does it support versions of JSON schema after draft-04.
+However this chai plugin will use tv4 as its backend for the forseeable future. If you want newer versions of the JSON-schema or more performance you could look at using
+[ajv](https://github.com/epoberezkin/ajv) in conjunction with [chai-json-schema-ajv](https://github.com/up9cloud/chai-json-schema-ajv)
+
 The assertion will fail if a schema use a `$ref` to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema(uri, schema)` to preset schemas.
 
 JSON Schema's main use-case is validating JSON documents and API responses, but it is also a powerful way to describe and validate *any* JavaScript value or object.
+
 
 ## Usage
 
@@ -216,7 +221,7 @@ before(function (done) {
 ````
 
 ## History
-See [Releases](https://github.com/chaijs/chai-json-schema/releases). 
+See [Releases](https://github.com/chaijs/chai-json-schema/releases).
 
 ## Build
 
