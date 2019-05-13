@@ -1,6 +1,6 @@
 # chai-json-schema
 
-[![npm:](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
+[![npm:](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/package/chai-json-schema)
 [![build:?](https://img.shields.io/travis/chaijs/chai-json-schema.svg?style=flat-square)](https://travis-ci.org/chaijs/chai-json-schema)
 [![dependencies:?](https://img.shields.io/npm/dm/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
 [![dependencies:?](https://img.shields.io/david/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
@@ -250,5 +250,3 @@ See the `Gruntfile` for additional commands.
 Copyright (c) 2013 Bart van der Schoor
 
 Licensed under the MIT license.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Bartvds/chai-json-schema/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
