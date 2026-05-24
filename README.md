@@ -1,10 +1,9 @@
 # chai-json-schema
 
-[![npm:](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/package/chai-json-schema)
-[![build:?](https://img.shields.io/travis/chaijs/chai-json-schema.svg?style=flat-square)](https://travis-ci.org/chaijs/chai-json-schema)
-[![dependencies:?](https://img.shields.io/npm/dm/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/packages/chai-json-schema)
-[![dependencies:?](https://img.shields.io/david/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
-[![devDependencies:?](https://img.shields.io/david/dev/chaijs/chai-json-schema.svg?style=flat-square)](https://david-dm.org/chaijs/chai-json-schema)
+[![npm version](https://img.shields.io/npm/v/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/package/chai-json-schema)
+[![CI](https://github.com/chaijs/chai-json-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/chaijs/chai-json-schema/actions/workflows/ci.yml)
+[![downloads](https://img.shields.io/npm/dm/chai-json-schema.svg?style=flat-square)](https://www.npmjs.com/package/chai-json-schema)
+[![license](https://img.shields.io/npm/l/chai-json-schema.svg?style=flat-square)](./LICENSE-MIT)
 
 > [Chai](http://chaijs.com/) plugin with assertions to validate values against [JSON Schema v4](http://json-schema.org/).
 
@@ -12,57 +11,40 @@ Assert both simple values and complex objects with the rich collection of [valid
 
 For general help with json-schema see this excellent [guide](http://spacetelescope.github.io/understanding-json-schema/) and usable [reference](http://spacetelescope.github.io/understanding-json-schema/reference/index.html).
 
+## Status
+
+The 1.x line is in maintenance: dependency hygiene and CI updates only. The runtime is unchanged since 1.5.1 and continues to work for existing users.
+
+## Compatibility
+
+|                | Supported                                                |
+| -------------- | -------------------------------------------------------- |
+| Node (runtime) | `>= 6` (per `engines.node`; CI tested on 18, 20, 22, 24) |
+| chai (peer)    | `>= 1.6.1 < 5`                                           |
+| JSON Schema    | draft-04 (via `tv4`)                                     |
+
 ## Notes
 
-JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4).
+JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4). tv4 is unmaintained and only supports JSON Schema draft-04. If you need newer drafts or better performance, [`ajv`](https://github.com/ajv-validator/ajv) is the maintained alternative.
 
-It seems that tv4 is not actively developed anymore, nor does it support versions of JSON schema after draft-04.
-However this chai plugin will use tv4 as its backend for the forseeable future. If you want newer versions of the JSON-schema or more performance you could look at using
-[ajv](https://github.com/epoberezkin/ajv) in conjunction with [chai-json-schema-ajv](https://github.com/up9cloud/chai-json-schema-ajv)
+The assertion will fail if a schema uses a `$ref` to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema(uri, schema)` to preset schemas.
 
-The assertion will fail if a schema use a `$ref` to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema(uri, schema)` to preset schemas.
-
-JSON Schema's main use-case is validating JSON documents and API responses, but it is also a powerful way to describe and validate *any* JavaScript value or object.
-
+JSON Schema's main use-case is validating JSON documents and API responses, but it is also a powerful way to describe and validate _any_ JavaScript value or object.
 
 ## Usage
 
-
-### server-side
-
 Install from npm:
 
-````bash
-$ npm install chai-json-schema
-````
+```bash
+npm install chai-json-schema
+```
 
-Have chai use the chai-json-schema module:
+Register the plugin with chai:
 
-````js
+```js
 var chai = require('chai');
 chai.use(require('chai-json-schema'));
-````
-
-### browser-side
-
-Using globals:
-
-Include chai-json-schema after [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js/), [Tiny Validator tv4](https://github.com/geraintluff/tv4) and [Chai](http://chaijs.com/):
-
-````html
-<script src="jsonpointer.js"></script>
-<script src="tv4.js"></script>
-<script src="chai.js"></script>
-<script src="chai-json-schema.js"></script>
-````
-
-Install from bower:
-
-````bash
-$ bower install chai-json-schema
-````
-
-The module supports CommonJS, AMD and browser globals. You might need to shim `tv4`'s global and make sure  `jsonpointer.js` can be required as `'jsonpointer'`.
+```
 
 ## Assertions
 
@@ -70,7 +52,7 @@ The module supports CommonJS, AMD and browser globals. You might need to shim `t
 
 Validate that the given javascript value conforms to the specified JSON Schema. Both the value and schema would likely be JSON loaded from an external datasource but could also be literals or object instances.
 
-````js
+```js
 var goodApple = {
   skin: 'thin',
   colors: ['red', 'green', 'yellow'],
@@ -104,29 +86,29 @@ var fruitSchema = {
   }
 };
 
-//bdd style
+// bdd style
 expect(goodApple).to.be.jsonSchema(fruitSchema);
 expect(badApple).to.not.be.jsonSchema(fruitSchema);
 
 goodApple.should.be.jsonSchema(fruitSchema);
 badApple.should.not.be.jsonSchema(fruitSchema);
 
-//tdd style
+// tdd style
 assert.jsonSchema(goodApple, fruitSchema);
 assert.notJsonSchema(badApple, fruitSchema);
-````
+```
 
 ## Additional API
 
-The `tv4` instance is 'exported' as `chai.tv4` and can be accessed to add schemas for use in validations:
+The `tv4` instance is exported as `chai.tv4` and can be accessed to add schemas for use in validations:
 
-````js
+```js
 chai.tv4.addSchema(uri, schema);
-````
+```
 
 There are other useful methods:
 
-````js
+```js
 var list = chai.tv4.getMissingUris();
 var list = chai.tv4.getMissingUris(/^https?:/);
 
@@ -137,7 +119,7 @@ var schema = chai.tv4.getSchema('http://example.com/item');
 var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
 
 chai.tv4.dropSchemas();
-````
+```
 
 For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
 
@@ -145,43 +127,41 @@ For more API methods and info on the validator see the [tv4 documentation](https
 
 **Cyclical objects**
 
-This will be passed to the internal `tv4` validate call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascipt structures (instead of pure JSON) without risk of entering a loop on cyclical references.
+This will be passed to the internal `tv4` validate call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascript structures (instead of pure JSON) without risk of entering a loop on cyclical references.
 
-````js
+```js
 chai.tv4.cyclicCheck = true;
-````
+```
 
-This is slightly slower then regular validation so it is disabled by default.
+This is slightly slower than regular validation so it is disabled by default.
 
 **Ban unknown properties**
 
-````js
+```js
 chai.tv4.banUnknown = true;
-````
+```
 
-Passed to the internal `tv4` validate call makes validation fail on unknown schema properties. Use this to make sure your schema do not contain undesirable data.
+Passed to the internal `tv4` validate call, makes validation fail on unknown schema properties. Use this to make sure your schema does not contain undesirable data.
 
 **Validate multiple errors**
 
-````js
+```js
 chai.tv4.multiple = true;
-````
+```
 
-Call `tv4.validateMultiple` for validation instead of `tv4.validateResult`. Use this if you want see all validation errors.
-
+Calls `tv4.validateMultiple` for validation instead of `tv4.validateResult`. Use this if you want to see all validation errors.
 
 ### Remote references
 
-Due to the synchronous nature of assertions there will be no support for dynamically loading remote references during validation.
+Due to the synchronous nature of assertions there is no support for dynamically loading remote references during validation.
 
-Use the asynchronous preparation feature of your favourite test runner to preload remote schemas:
+Use the asynchronous preparation feature of your test runner to preload remote schemas:
 
-````js
+```js
 // simplified example using a bdd-style async before();
 // as used in mocha, jasmine etc.
 
 before(function (done) {
-
   // iterate missing
   var checkMissing = function (callback) {
     var missing = chai.tv4.getMissingUris();
@@ -218,32 +198,22 @@ before(function (done) {
     checkMissing(done);
   });
 });
-````
+```
 
 ## History
+
 See [Releases](https://github.com/chaijs/chai-json-schema/releases).
 
-## Build
+## Development
 
-Install development dependencies in your git checkout:
+In a git checkout:
 
-````bash
-$ npm install
-````
+```bash
+npm install
+npm test
+```
 
-You need the global [grunt](http://gruntjs.com) command:
-
-````bash
-$ npm install grunt-cli -g
-````
-
-Build and run tests:
-
-````bash
-$ grunt
-````
-
-See the `Gruntfile` for additional commands.
+`npm test` runs ESLint, the Prettier format check, and both Mocha suites (passing assertions and failing-on-purpose assertions). CI runs the same flow on Node 18, 20, 22 and 24.
 
 ## License
 
