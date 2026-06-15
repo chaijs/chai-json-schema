@@ -51,10 +51,10 @@
 
       describe('api', function () {
         it('exports tv4', function () {
-          assert.isObject(chai.tv4, 'chai.tv4');
+          assert.isObject(plugin.tv4, 'plugin.tv4');
           // check some methods
-          assert.isFunction(chai.tv4.addSchema, 'chai.tv4.addSchema');
-          assert.isFunction(chai.tv4.getMissingUris, 'chai.tv4.getMissingUris');
+          assert.isFunction(plugin.tv4.addSchema, 'plugin.tv4.addSchema');
+          assert.isFunction(plugin.tv4.getMissingUris, 'plugin.tv4.getMissingUris');
         });
       });
 
@@ -227,10 +227,10 @@
               });
               describe('should/expect output multiple negation', function () {
                 before(function () {
-                  chai.tv4.multiple = true;
+                  plugin.tv4.multiple = true;
                 });
                 after(function () {
-                  chai.tv4.multiple = false;
+                  plugin.tv4.multiple = false;
                 });
                 it('should/expect multiple negation', function () {
                   testCase.invalid.forEach(function (obj, i) {
@@ -290,10 +290,10 @@
               });
               describe('should/expect output multiple negation', function () {
                 before(function () {
-                  chai.tv4.multiple = true;
+                  plugin.tv4.multiple = true;
                 });
                 after(function () {
-                  chai.tv4.multiple = false;
+                  plugin.tv4.multiple = false;
                 });
                 it('should/expect multiple negation', function () {
                   testCase.invalid.forEach(function (obj, i) {
