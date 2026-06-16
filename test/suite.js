@@ -50,11 +50,25 @@
       });
 
       describe('api', function () {
-        it('exports tv4', function () {
+        it('exposes a live tv4 instance with expected methods', function () {
           assert.isObject(plugin.tv4, 'plugin.tv4');
-          // check some methods
           assert.isFunction(plugin.tv4.addSchema, 'plugin.tv4.addSchema');
           assert.isFunction(plugin.tv4.getMissingUris, 'plugin.tv4.getMissingUris');
+          assert.isFunction(plugin.tv4.validateResult, 'plugin.tv4.validateResult');
+          assert.isFunction(plugin.tv4.validateMultiple, 'plugin.tv4.validateMultiple');
+          assert.isFunction(plugin.tv4.freshApi, 'plugin.tv4.freshApi');
+        });
+        it('jsonpointer is live: error output includes field path for invalid data', function () {
+          var schema = { properties: { x: { type: 'integer' } } };
+          var invalid = { x: 'not-an-int' };
+          var msg = null;
+          try {
+            assert.jsonSchema(invalid, schema);
+          } catch (err) {
+            msg = err.message;
+          }
+          assert.ok(msg, 'expected an assertion error');
+          assert.include(msg, '/x', 'jsonpointer resolved field path in error output');
         });
       });
 

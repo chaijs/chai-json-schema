@@ -32,6 +32,6 @@
 - Dropped Node 18 support (`engines` is now `>= 20`). Node 18 cannot `require()` ES modules, which chai 5+ are.
 - Removed `serialize-javascript` override (mocha now ships a non-vulnerable version directly).
 
-## [1.5.1] - 2024-01-01
+## [1.5.1] - 2019-05-13
 
 - Maintenance release; replaced grunt-era toolchain with eslint/prettier/mocha.

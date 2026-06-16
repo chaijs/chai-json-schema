@@ -25,6 +25,9 @@
   }
 
   function getPayload(tv4Module, jsonpointer) {
+    if (!tv4Module) throw new Error('chai-json-schema: tv4 dependency missing');
+    if (!jsonpointer) throw new Error('chai-json-schema: jsonpointer dependency missing');
+
     var tv4 = tv4Module.freshApi();
     tv4.cyclicCheck = false;
     tv4.banUnknown = false;
@@ -33,10 +36,6 @@
     function pluginFn(chai, utils) {
       var assert = chai.assert;
       var flag = utils.flag;
-
-      // check if we have all dependencies
-      assert.ok(tv4Module, 'tv4 dependency');
-      assert.ok(jsonpointer, 'jsonpointer dependency');
 
       function forEachI(arr, func, scope) {
         for (var i = 0, ii = arr.length; i < ii; i++) {
