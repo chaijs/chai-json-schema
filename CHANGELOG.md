@@ -12,8 +12,9 @@
   Migrate configuration calls:
 
   ```js
-  // before
   const chai = require('chai');
+
+  // before
   chai.use(require('chai-json-schema'));
   chai.tv4.addSchema('http://example.com/schema', schema);
   chai.tv4.cyclicCheck = true;
