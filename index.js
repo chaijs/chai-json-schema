@@ -25,20 +25,17 @@
   }
 
   function getPayload(tv4Module, jsonpointer) {
-    // return the chai plugin (a function)
-    return function (chai, utils) {
+    if (!tv4Module) throw new Error('chai-json-schema: tv4 dependency missing');
+    if (!jsonpointer) throw new Error('chai-json-schema: jsonpointer dependency missing');
+
+    var tv4 = tv4Module.freshApi();
+    tv4.cyclicCheck = false;
+    tv4.banUnknown = false;
+    tv4.multiple = false;
+
+    function pluginFn(chai, utils) {
       var assert = chai.assert;
       var flag = utils.flag;
-
-      // check if we have all dependencies
-      assert.ok(tv4Module, 'tv4 dependency');
-      assert.ok(jsonpointer, 'jsonpointer dependency');
-
-      // export and use our own instance
-      chai.tv4 = tv4Module.freshApi();
-      chai.tv4.cyclicCheck = false;
-      chai.tv4.banUnknown = false;
-      chai.tv4.multiple = false;
 
       function forEachI(arr, func, scope) {
         for (var i = 0, ii = arr.length; i < ii; i++) {
@@ -92,13 +89,12 @@
       var formatResult = function (error, data, schema, indent) {
         var schemaValue;
         var dataValue;
-        var schemaLabel;
 
         // assemble error string
         var ret = '';
         ret += '\n' + indent + error.message;
 
-        schemaLabel = extractSchemaLabel(schema, 60);
+        var schemaLabel = extractSchemaLabel(schema, 60);
         if (schemaLabel) {
           ret += '\n' + indent + '    schema: ' + schemaLabel;
         }
@@ -133,10 +129,10 @@
 
         // single result
         var result = null;
-        if (chai.tv4.multiple) {
-          result = chai.tv4.validateMultiple(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
+        if (tv4.multiple) {
+          result = tv4.validateMultiple(obj, schema, tv4.cyclicCheck, tv4.banUnknown);
         } else {
-          result = chai.tv4.validateResult(obj, schema, chai.tv4.cyclicCheck, chai.tv4.banUnknown);
+          result = tv4.validateResult(obj, schema, tv4.cyclicCheck, tv4.banUnknown);
         }
         // assertion fails on missing schemas
         var pass = result.valid && (result.missing.length === 0);
@@ -185,6 +181,9 @@
       assert.notJsonSchema = function (val, exp, msg) {
         new chai.Assertion(val, msg).to.not.be.jsonSchema(exp);
       };
-    };
+    }
+
+    pluginFn.tv4 = tv4;
+    return pluginFn;
   }
 }());
