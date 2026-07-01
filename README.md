@@ -13,21 +13,21 @@ For general help with json-schema see this excellent [guide](http://spacetelesco
 
 ## Status
 
-The 1.x line is in maintenance: dependency hygiene and CI updates only. The runtime is unchanged since 1.5.1 and continues to work for existing users.
+Maintained on a low-frequency basis. The 2.x line supports chai 5 and 6 and changes how the bundled `tv4` instance is exposed; see the [changelog](./CHANGELOG.md) if you are upgrading from 1.x.
 
 ## Compatibility
 
-|                | Supported                                                |
-| -------------- | -------------------------------------------------------- |
-| Node (runtime) | `>= 6` (per `engines.node`; CI tested on 18, 20, 22, 24) |
-| chai (peer)    | `>= 1.6.1 < 5`                                           |
-| JSON Schema    | draft-04 (via `tv4`)                                     |
+|                | Supported                                             |
+| -------------- | ----------------------------------------------------- |
+| Node (runtime) | `>= 20` (per `engines.node`; CI tested on 20, 22, 24) |
+| chai (peer)    | `>= 5` (chai 5 and 6)                                 |
+| JSON Schema    | draft-04 (via `tv4`)                                  |
 
 ## Notes
 
-JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4). tv4 is unmaintained and only supports JSON Schema draft-04. If you need newer drafts or better performance, [`ajv`](https://github.com/ajv-validator/ajv) is the maintained alternative.
+JSON Schema validation is done by [Tiny Validator tv4](https://github.com/geraintluff/tv4). tv4 is unmaintained and only supports JSON Schema draft-04. If you need newer drafts or better performance, [`chai-json-schema-ajv`](https://github.com/chaijs/chai-json-schema-ajv) is the `ajv`-backed successor plugin.
 
-The assertion will fail if a schema uses a `$ref` to a schema that is not added before the assertion is called. Use `chai.tv4.addSchema(uri, schema)` to preset schemas.
+The assertion will fail if a schema uses a `$ref` to a schema that is not added before the assertion is called. Use `chaiJsonSchema.tv4.addSchema(uri, schema)` to preset schemas.
 
 JSON Schema's main use-case is validating JSON documents and API responses, but it is also a powerful way to describe and validate _any_ JavaScript value or object.
 
@@ -39,11 +39,13 @@ Install from npm:
 npm install chai-json-schema
 ```
 
-Register the plugin with chai:
+Register the plugin with chai. Keep a reference to the plugin if you want to configure the bundled `tv4` instance (see [Additional API](#additional-api)):
 
 ```js
-var chai = require('chai');
-chai.use(require('chai-json-schema'));
+const chai = require('chai');
+const chaiJsonSchema = require('chai-json-schema');
+
+chai.use(chaiJsonSchema);
 ```
 
 ## Assertions
@@ -100,25 +102,25 @@ assert.notJsonSchema(badApple, fruitSchema);
 
 ## Additional API
 
-The `tv4` instance is exported as `chai.tv4` and can be accessed to add schemas for use in validations:
+The `tv4` instance is exported as `chaiJsonSchema.tv4` and can be accessed to add schemas for use in validations:
 
 ```js
-chai.tv4.addSchema(uri, schema);
+chaiJsonSchema.tv4.addSchema(uri, schema);
 ```
 
 There are other useful methods:
 
 ```js
-var list = chai.tv4.getMissingUris();
-var list = chai.tv4.getMissingUris(/^https?:/);
+var list = chaiJsonSchema.tv4.getMissingUris();
+var list = chaiJsonSchema.tv4.getMissingUris(/^https?:/);
 
-var list = chai.tv4.getSchemaUris();
-var list = chai.tv4.getSchemaUris(/example.com/);
+var list = chaiJsonSchema.tv4.getSchemaUris();
+var list = chaiJsonSchema.tv4.getSchemaUris(/example.com/);
 
-var schema = chai.tv4.getSchema('http://example.com/item');
-var schema = chai.tv4.getSchema('http://example.com/item/#sub/type');
+var schema = chaiJsonSchema.tv4.getSchema('http://example.com/item');
+var schema = chaiJsonSchema.tv4.getSchema('http://example.com/item/#sub/type');
 
-chai.tv4.dropSchemas();
+chaiJsonSchema.tv4.dropSchemas();
 ```
 
 For more API methods and info on the validator see the [tv4 documentation](https://github.com/geraintluff/tv4#api).
@@ -130,7 +132,7 @@ For more API methods and info on the validator see the [tv4 documentation](https
 This will be passed to the internal `tv4` validate call to enable [support for cyclical objects](https://github.com/geraintluff/tv4#cyclical-javascript-objects). It allows tv4 to validate normal javascript structures (instead of pure JSON) without risk of entering a loop on cyclical references.
 
 ```js
-chai.tv4.cyclicCheck = true;
+chaiJsonSchema.tv4.cyclicCheck = true;
 ```
 
 This is slightly slower than regular validation so it is disabled by default.
@@ -138,7 +140,7 @@ This is slightly slower than regular validation so it is disabled by default.
 **Ban unknown properties**
 
 ```js
-chai.tv4.banUnknown = true;
+chaiJsonSchema.tv4.banUnknown = true;
 ```
 
 Passed to the internal `tv4` validate call, makes validation fail on unknown schema properties. Use this to make sure your schema does not contain undesirable data.
@@ -146,7 +148,7 @@ Passed to the internal `tv4` validate call, makes validation fail on unknown sch
 **Validate multiple errors**
 
 ```js
-chai.tv4.multiple = true;
+chaiJsonSchema.tv4.multiple = true;
 ```
 
 Calls `tv4.validateMultiple` for validation instead of `tv4.validateResult`. Use this if you want to see all validation errors.
@@ -164,7 +166,7 @@ Use the asynchronous preparation feature of your test runner to preload remote s
 before(function (done) {
   // iterate missing
   var checkMissing = function (callback) {
-    var missing = chai.tv4.getMissingUris();
+    var missing = chaiJsonSchema.tv4.getMissingUris();
     if (missing.length === 0) {
       // all $ref's solved
       callback();
@@ -179,7 +181,7 @@ before(function (done) {
         return;
       }
       // add it
-      chai.tv4.addSchema(uri, schema);
+      chaiJsonSchema.tv4.addSchema(uri, schema);
       // iterate
       checkMissing(callback);
     });
@@ -192,7 +194,7 @@ before(function (done) {
       return;
     }
     // add it
-    chai.tv4.addSchema(uri, schema);
+    chaiJsonSchema.tv4.addSchema(uri, schema);
 
     // start checking
     checkMissing(done);
@@ -213,7 +215,7 @@ npm install
 npm test
 ```
 
-`npm test` runs ESLint, the Prettier format check, and both Mocha suites (passing assertions and failing-on-purpose assertions). CI runs the same flow on Node 18, 20, 22 and 24.
+`npm test` runs ESLint, the Prettier format check, and both Mocha suites (passing assertions and failing-on-purpose assertions). CI runs the same flow on Node 20, 22 and 24.
 
 ## License
 

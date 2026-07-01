@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2026-07-01
+
+- First release of the 2.x line published to npm. No functional changes since 2.0.0.
+
 ## [2.0.0] - 2026-06-16
 
 ### Breaking changes
