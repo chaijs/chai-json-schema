@@ -38,8 +38,6 @@ export default [
   {
     files: ['index.js'],
     languageOptions: {
-      ecmaVersion: 5,
-      sourceType: 'script',
       globals: { ...nodeGlobals, ...browserGlobals }
     },
     rules: {
@@ -49,8 +47,6 @@ export default [
   {
     files: ['test/**/*.js'],
     languageOptions: {
-      ecmaVersion: 5,
-      sourceType: 'script',
       globals: { ...nodeGlobals, ...browserGlobals, ...mochaGlobals }
     },
     rules: {

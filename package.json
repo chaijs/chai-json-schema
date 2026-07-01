@@ -2,6 +2,7 @@
   "name": "chai-json-schema",
   "version": "0.0.0-dev",
   "description": "Chai plugin for JSON Schema v4",
+  "type": "module",
   "author": {
     "name": "Bart van der Schoor",
     "url": "https://github.com/chaijs"
@@ -29,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/chaijs/chai-json-schema/issues"
   },
-  "main": "./index",
+  "main": "./index.js",
   "files": [
     "index.js",
     "LICENSE-MIT",
