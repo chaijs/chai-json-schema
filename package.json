@@ -1,6 +1,6 @@
 {
   "name": "chai-json-schema",
-  "version": "2.0.0",
+  "version": "0.0.0-dev",
   "description": "Chai plugin for JSON Schema v4",
   "author": {
     "name": "Bart van der Schoor",
